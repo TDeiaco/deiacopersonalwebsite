@@ -1,0 +1,116 @@
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  body {
+    background-color: #fff;
+    color: #333;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  
+  /* Container styles */
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  /* Header styles */
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .app-header .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .app-nav {
+    display: flex;
+  }
+  
+  .app-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
+    transition: color 0.3s ease;
+  }
+  
+  .app-nav a:hover {
+    color: #ccc;
+  }
+  
+  .app-nav .active {
+    color: #1e90ff;
+  }
+  
+  /* Main content area */
+  .app-content {
+    flex: 1;
+    padding: 30px;
+  }
+  
+  /* Footer styles */
+  .app-footer {
+    padding: 20px 30px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .app-footer p {
+    font-size: 14px;
+  }
+  
+  .social-links {
+    margin-top: 10px;
+  }
+  
+  .social-links a {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 20px;
+    transition: color 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    color: #1e90ff;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .app-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .app-nav {
+      flex-direction: column;
+      margin-top: 10px;
+    }
+  
+    .app-nav a {
+      margin-left: 0;
+      margin-top: 10px;
+    }
+  
+    .app-footer p {
+      font-size: 12px;
+    }
+  
+    .social-links a {
+      font-size: 18px;
+    }
+  }
+  
