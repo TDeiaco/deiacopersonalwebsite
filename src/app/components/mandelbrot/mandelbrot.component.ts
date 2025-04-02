@@ -35,6 +35,8 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     _maxY = 1.5;
     _xRes = 600;
     _yRes = 600;
+    windowCoords : {real:number, img:number, realRange:number, imgRange:number} 
+        = {real:0,img:0,realRange:0,imgRange:0}
 
     constructor() {
         // Use a dynamic import to load the worker script.
@@ -88,6 +90,20 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
         this._maxX = pixelX + ((frameWidth / 2) * percent);
         this._minY = pixelY - ((frameHeight / 2) * percent);
         this._maxY = pixelY + ((frameHeight / 2) * percent);
+
+        this.windowCoords = this.getWindowCoords()
+    }
+
+    getWindowCoords(){
+        var frameWidth = this._maxX - this._minX;
+        var frameHeight = this._maxY - this._minY;
+        var pixelWidth = frameWidth / this._xRes;
+        var pixelHeight = frameHeight / this._yRes;
+        var real = this._minX + (pixelWidth * this.currentX) + (0.5 * pixelWidth);
+        var img = this._maxY - (pixelHeight * this.currentY) + (0.5 * pixelHeight);
+        var realRange = this._maxX - this._minX;
+        var imgRange = this._maxY - this._minY;
+        return {real:real, img:img, realRange: realRange, imgRange:imgRange }
     }
 
     resetHomeAndRender() {

@@ -1,89 +1,43 @@
 <div class="container">
     <div class="row">
-        <div class="col-6">
-            <canvas width="600" height="600" #fractalCanvas style=" border:1px solid #ccc;">
-            </canvas>
+      <div class="col-12">
+        <label> Real: {{ windowCoords.real }}</label>
+        <label> Img: {{ windowCoords.img }}</label>
+        <label> Real Range: {{ windowCoords.realRange }}</label>
+        <label> Img Range: {{ windowCoords.imgRange }}</label>
+      </div>
+      <div class="col-6" style="display: flex; align-items: flex-start;">
+        <div style="width: 600px; height: 600px; margin-right: 10px;">
+          <canvas width="600" height="600" #fractalCanvas style="border: 1px solid #ccc;"></canvas>
         </div>
-        <div class="col-6">
-            
-            <div class="row">
-                <div class="col-6" style="margin: 16px;">
-                    <!-- <h6 style="font-weight:bold">Render Duration:</h6>
-                    <h6 id="elapsedTimeLabel">{{elapsedTime}}</h6>
-                    <h6 style="font-weight:bold">Iteration Count:</h6> -->
-                    <input type="button" (click)="renderFractal()" value="Render" style="margin-right:0.5rem;"/>
-                    <input type="button" value="Reset" (click)="resetHomeAndRender()"  style="margin-right:0.5rem;"/>
-                    <label style="margin:2rem;">Iterations</label>
-                    <input id="iterationCountInput" [(ngModel)]="iterationCount" min="2" style="margin-right:0.5rem;"/>
-                    <div id="renderingSpinner" [style.visibility]="isRendering ? 'visible' : 'hidden'" style="margin-right:0.5rem;">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Rendering...
-                    </div>
-                </div>
-                <!-- <div class="col-6" style="margin:16px;" data-toggle="tooltip" data-placement="top"
-                    title="Use 'default' to render unformatted in a single channel.">
-                    <div class="row">
-                        <input type="checkbox" style="margin:4px" [(ngModel)]="useColorFormat" /> Custom Coloring:
-                    </div>
-                    <div class="row">
-                        <h6 style="margin:4px">R:</h6>
-                        <input style="margin:4px" type="text" id="colorFormatR" [(ngModel)]="colorFormatR"  class="form-control"/>
-                    </div>
-                    <div class="row">
-                        <h6 style="margin:4px">G:</h6>
-                        <input style="margin:4px" type="text" id="colorFormatG" [(ngModel)]="colorFormatG"  class="form-control"/>
-                    </div>
-                    <div class="row">
-                        <h6 style="margin:4px">B:</h6>
-                        <input style="margin:4px" type="text" id="colorFormatB" [(ngModel)]="colorFormatB"  class="form-control"/>
-                    </div>
-                </div>
-            </div> -->
-            <!-- <div class="row">
-                <div class="col-6">
-                    <input type="button" (click)="renderFractal()" value="Render" style="margin:2px;" />
+        <div style="display: flex; flex-direction: column;">
+          <input type="button" (click)="renderFractal()" value="Render" style="margin-bottom: 5px;" />
+          <input type="button" value="Reset" (click)="resetHomeAndRender()" style="margin-bottom: 5px;" />
+          <label style="margin-top: 10px; margin-bottom: 5px;">Iterations</label>
+          <input id="iterationCountInput" [(ngModel)]="iterationCount" min="2" style="margin-bottom: 5px;" />
+          
+          <label style="margin-top: 10px; margin-bottom: 5px;">Enable Custom Coloring</label>
+          <input type="checkbox" style="margin: 4px;" [(ngModel)]="useColorFormat" /> 
+          <h6 style="margin: 4px;">R:</h6>
+          <input style="margin: 4px;" type="text" id="colorFormatR" [(ngModel)]="colorFormatR" class="form-control" />
+          <h6 style="margin: 4px;">G:</h6>
+          <input style="margin: 4px;" type="text" id="colorFormatG" [(ngModel)]="colorFormatG" class="form-control" />
+          <h6 style="margin: 4px;">B:</h6>
+          <input style="margin: 4px;" type="text" id="colorFormatB" [(ngModel)]="colorFormatB" class="form-control" />    
+          
+          <div id="renderingSpinner" [style.visibility]="isRendering ? 'visible' : 'hidden'">
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Rendering...
+          </div>
 
-                    <div id="renderingSpinner" [style.visibility]="isRendering ? 'visible' : 'hidden'">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Rendering...
-                    </div>
-                    <div>
-                        <h6 id="highResProgress">{{exportProgress}}</h6>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <a id="exportRender" download="mandelbrotHighRes.png" href="" (click)="exportRender($event)">Export
-                        Render</a>
-                    <div class="row">
-                        <h6>Horizontal Resolution: </h6>
-                        <input type="number" min="6" [(ngModel)]="exportResolution" id="horzRes"  class="form-control"/>
-                    </div>
-                    <div id="exportSpinner" [style.visibility]="isExporting ? 'visible' : 'hidden'">
-                        <span class="spinner-grow spinner-grow-sm"></span>
-                        Exporting...<br />
-                        Check F-12 logs for export progress.
-                    </div>
-                </div>
-            </div>
+          <div style="margin: 12px;">
+            <h3>Instructions:</h3>
+            <p style="text-align: left;">
+              After initial loading of Mandlebrot, click anywhere on the<br />image to zoom in.<br />- Alt+Click to Zoom out.<br />- Ctrl+Click to move around.<br />- Iteration Count controls detail<br />- Export a high resolution copy with Export Render.<br />- Over 9600 Horizontal Resolution, errors can occur.<br />- Check Custom Coloring to setup<br /> custom coloring while rendering.<br />- Use "default" for basic default color calculation for<br /> individual color components.<br />- Use parameter "iters" : "sin(iters deg)*255" or "iters%255"<br /><a href="https://mathjs.org/docs/expressions/syntax.html" target="_blank"> Click here for expression details.</a>
+            </p>
+          </div>
 
-            <div style="margin:12px">
-                <h3>Instructions:</h3>
-                <p style="text-align:left">
-                    After initial loading of Mandlebrot, click anywhere on the
-                    <br />image to zoom in.
-                    <br />- Alt+Click to Zoom out.
-                    <br />- Ctrl+Click to move around.
-                    <br />- Iteration Count controls detail
-                    <br />- Export a high resolution copy with Export Render.
-                    <br />- Over 9600 Horizontal Resolution, errors can occur.
-                    <br />- Check Custom Coloring to setup
-                    <br /> custom coloring while rendering.
-                    <br />- Use "default" for basic default color calculation for
-                    <br /> individual color components.
-                    <br />- Use parameter "iters" : "sin(iters deg)*255" or "iters%255"
-                    <br /><a href="https://mathjs.org/docs/expressions/syntax.html" target="_blank"> Click here for expression details.</a>
-                </p>
-            </div> -->
         </div>
+      </div>
     </div>
-</div>
+  </div>
