@@ -1,10 +1,14 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
+
 import * as math from 'mathjs'; // Import math.js
 
 @Component({
+    standalone:true,
     selector: 'app-mandelbrot',
     templateUrl: './mandelbrot.component.html',
-    styleUrl: './mandelbrot.component.css'
+    styleUrl: './mandelbrot.component.css',
+    imports: [FormsModule]
 })
 export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     @ViewChild('fractalCanvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
@@ -97,6 +101,56 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
         this.currentY = 0;
         this.renderFractal();
     }
+
+    // renderBuddhabrot(): void {
+    //     if (this.isWorkerBusy) {
+    //         return;
+    //     }
+    //     this.isWorkerBusy = true;
+    //     this.isRendering = true; // set to true before starting render
+    //     const canvas = this.canvas.nativeElement;
+    //     this._xRes = canvas.width;
+    //     this._yRes = canvas.height;
+
+
+    //     var workerMessage = {
+    //                 mode: "nebulabrot",
+    //                 maxX: this._maxXNeb, minX: this._minXNeb, maxY: this._maxYNeb, minY: this._minYNeb, xRes: this._xResNeb, yRes: this._yResNeb,
+    //                 samples: sampleCountInputNeb.value,
+    //                 iterationCount: iterationCountInputNeb.value,
+    //                 hitWeight: weightInputNeb.value
+    //             }
+
+
+    //     const startTime = Date.now();
+    //     this.worker.postMessage(workerMessage);
+
+    //     this.worker.onmessage = (event: MessageEvent) => {
+    //         this.isWorkerBusy = false;
+    //         this.isRendering = false; // set to false when rendering is complete
+    //         console.log(event.data)
+    //         if (event.data instanceof ImageData) {
+    //             this.ctx.putImageData(event.data, 0, 0);
+
+    //             for (var i = 0; i < event.data.data.length; i += 4) {
+    //                 var index = i / 4;
+    //                 this.ctx.fillStyle = "rgba(" + event.data.data[i] + "," + event.data.data[i + 1] + "," + event.data.data[i + 2] + "," + 1.0 + ")";
+    //                 this.ctx.fillRect(index % this._xRes, (Math.trunc(index / this._xRes) + 1), 1, 1);
+    //             }
+
+    //             const endTime = Date.now();
+    //             this.elapsedTime = ((endTime - startTime) / 1000).toFixed(2) + " seconds";
+    //         } else {
+    //             console.log(event.data);
+    //         }
+    //     };
+
+    //     this.worker.onerror = (error) => {
+    //         this.isWorkerBusy = false;
+    //         this.isRendering = false;
+    //         console.error("Worker error:", error);
+    //     };
+    // }
 
     renderFractal(): void {
         if (this.isWorkerBusy) {
