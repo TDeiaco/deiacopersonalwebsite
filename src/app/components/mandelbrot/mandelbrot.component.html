@@ -1,15 +1,11 @@
 <div class="container">
     <div class="row">
-      <div class="col-12">
-        <label> Real: {{ windowCoords.real }}</label>
-        <label> Img: {{ windowCoords.img }}</label>
-        <label> Real Range: {{ windowCoords.realRange }}</label>
-        <label> Img Range: {{ windowCoords.imgRange }}</label>
-      </div>
-      <div class="col-6" style="display: flex; align-items: flex-start;">
+      <div class="col-12" style="display: flex; align-items: flex-start;">
+
         <div style="width: 600px; height: 600px; margin-right: 10px;">
           <canvas width="600" height="600" #fractalCanvas style="border: 1px solid #ccc;"></canvas>
         </div>
+
         <div style="display: flex; flex-direction: column;">
           <input type="button" (click)="renderFractal()" value="Render" style="margin-bottom: 5px;" />
           <input type="button" value="Reset" (click)="resetHomeAndRender()" style="margin-bottom: 5px;" />
@@ -29,30 +25,37 @@
             <span class="spinner-grow spinner-grow-sm"></span>
             Rendering...
           </div>
-
-          
-          <a id="exportRender" download="mandelbrotHighRes.png" href="" (click)="exportRender($event)">Export
-            Render</a>
-
-
-              <h6>Horizontal Resolution: </h6>
-
-              <input type="number" min="6" [(ngModel)]="exportResolution" id="horzRes"  class="form-control"/>
-
+          <a id="exportRender" download="mandelbrotHighRes.png" href="" (click)="exportRender($event)">Export Render</a>
+          <h6>Horizontal Resolution: </h6>
+          <input type="number" min="6" [(ngModel)]="exportResolution" id="horzRes"  class="form-control"/>
           <div id="exportSpinner" [style.visibility]="isExporting ? 'visible' : 'hidden'">
-
-              <span class="spinner-grow spinner-grow-sm"></span>
-
+          <span class="spinner-grow spinner-grow-sm"></span>
               Exporting... {{exportProgress}}<br />
-          </div>
+        </div>
 
+
+      </div>
+        <div style="display: flex; flex-direction: column;">
           <div style="margin: 12px;">
             <h3>Instructions:</h3>
             <p style="text-align: left;">
               After initial loading of Mandlebrot, click anywhere on the<br />image to zoom in.<br />- Alt+Click to Zoom out.<br />- Ctrl+Click to move around.<br />- Iteration Count controls detail<br />- Export a high resolution copy with Export Render.<br />- Over 9600 Horizontal Resolution, errors can occur.<br />- Check Custom Coloring to setup<br /> custom coloring while rendering.<br />- Use "default" for basic default color calculation for<br /> individual color components.<br />- Use parameter "iters" : "sin(iters deg)*255" or "iters%255"<br /><a href="https://mathjs.org/docs/expressions/syntax.html" target="_blank"> Click here for expression details.</a>
             </p>
           </div>
+         </div>
 
+         <div style="display: flex; flex-direction: column;">
+          <label> Real Coordinate:</label>
+          <input type="number" [(ngModel)]="windowCoords.real" class="form-control"/>
+
+          <label> Img Coordinate:</label>
+          <input type="number" [(ngModel)]="windowCoords.img" class="form-control"/>
+
+          <label> Real Window:</label>
+          <input type="number" [(ngModel)]="windowCoords.realRange" class="form-control"/>
+
+          <label> Img Window:</label>
+          <input type="number" [(ngModel)]="windowCoords.imgRange" class="form-control"/>
         </div>
       </div>
     </div>

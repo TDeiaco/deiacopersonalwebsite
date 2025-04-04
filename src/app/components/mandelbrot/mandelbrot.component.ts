@@ -37,6 +37,7 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     _yRes = 600;
     windowCoords : {real:number, img:number, realRange:number, imgRange:number} 
         = {real:0,img:0,realRange:0,imgRange:0}
+        
 
     constructor() {
         // Use a dynamic import to load the worker script.
@@ -116,6 +117,7 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
         this.currentX = 0;
         this.currentY = 0;
         this.renderFractal();
+        this.windowCoords = this.getWindowCoords()
     }
 
     // renderBuddhabrot(): void {
