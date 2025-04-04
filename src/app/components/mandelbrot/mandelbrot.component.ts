@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { NgIf } from '@angular/common'; // Import NgIf
 
 import * as math from 'mathjs'; // Import math.js
 
@@ -8,7 +9,7 @@ import * as math from 'mathjs'; // Import math.js
     selector: 'app-mandelbrot',
     templateUrl: './mandelbrot.component.html',
     styleUrl: './mandelbrot.component.css',
-    imports: [FormsModule]
+    imports: [FormsModule, NgIf]
 })
 export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     @ViewChild('fractalCanvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
@@ -19,9 +20,9 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     // Component properties to hold form values
     iterationCount = 100;
     useColorFormat = false;
-    colorFormatR = 'default';
-    colorFormatG = 'default';
-    colorFormatB = 'default';
+    colorFormatR = 'iters%255';
+    colorFormatG = '(iters%127)*2';
+    colorFormatB = '(iters%63)*4';
     exportResolution = 2400;
     elapsedTime = '';
     exportProgress = '';
