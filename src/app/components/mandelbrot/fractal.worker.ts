@@ -43,14 +43,17 @@ function RenderMandelbrot(
     colorFormatG: string,
     colorFormatB: string,
     iterationCount: number
-): ImageData { // Changed return type to ImageData
+) { // Changed return type to ImageData
     try {
         const frameWidth = maxX - minX;
         const frameHeight = maxY - minY;
         const pixelWidth = frameWidth / xRes;
         const pixelHeight = frameHeight / yRes;
         const imageData = new ImageData(xRes, yRes);
-        console.log('got into background fractal');
+        console.log(frameWidth);
+        console.log(frameHeight);
+        console.log(pixelWidth);
+        console.log(pixelHeight);
 
         for (let iy = 0; iy < yRes; iy++) {
             for (let ix = 0; ix < xRes; ix++) {
@@ -79,9 +82,14 @@ function RenderMandelbrot(
                 }
                 // TODO: Lerp the colors
             }
+            if (iy % 100 == 0)
+                postMessage(iy);
+
+            if (iy == yRes - 1)
+                postMessage(iy);
         }
         postMessage(imageData)
-        return imageData; // Return the ImageData
+       // return imageData; // Return the ImageData
     } catch (e: any) {
         console.error(e); // Use console.error for errors
         throw e; // Re-throw the error to be caught by the caller
@@ -113,8 +121,6 @@ function RenderBuhddabrot(
     hitWeight: number
 ): ImageData { //changed return type to imagedata
     try {
-        console.log('got into render background')
-
         const frameWidth = maxX - minX;
         const frameHeight = maxY - minY;
         const pixelWidth = frameWidth / xRes;
@@ -137,7 +143,6 @@ function RenderBuhddabrot(
             const stops: number[] = [];
 
             while ((x * x) + (y * y) <= 4.0 && iteration < iterationCount) {
-                console.log('actually doing calulations')
                 const xTemp = (x * x) - (y * y) + pixelX;
                 y = (2 * x * y) + pixelY;
                 x = xTemp;

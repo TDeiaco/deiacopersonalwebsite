@@ -204,6 +204,8 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
             if (event.data instanceof ImageData) {
                 this.ctx.putImageData(event.data, 0, 0);
 
+                
+
                 for (var i = 0; i < event.data.data.length; i += 4) {
                     var index = i / 4;
                     this.ctx.fillStyle = "rgba(" + event.data.data[i] + "," + event.data.data[i + 1] + "," + event.data.data[i + 2] + "," + 1.0 + ")";
@@ -228,7 +230,7 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
         event.preventDefault(); // prevent the default <a> tag behavior
         this.isExporting = true;
         const exportResolutionX = this.exportResolution;
-        const exportResolutionY = (this.exportResolution * 0.75); //maintain aspect ratio
+        const exportResolutionY = exportResolutionX; //maintain aspect ratio
         this.exportProgress = "0%";
 
         const workerMessage = {
@@ -249,18 +251,26 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
         this.worker.postMessage(workerMessage);
 
         this.worker.onmessage = (event: MessageEvent) => {
-            if (event.data instanceof ImageData) {
-                this.exportProgress = "100%"
-                const canvas = document.createElement('canvas');
-                canvas.width = exportResolutionX;
-                canvas.height = exportResolutionY;
-                const ctx = canvas.getContext('2d')!;
-                ctx.putImageData(event.data, 0, 0);
 
-                const link = document.createElement('a');
+            if (event.data instanceof ImageData) {
+                console.log(event.data)
+                this.exportProgress = "100%"
+                var c = document.createElement('canvas');
+                c.width = exportResolutionX;
+                c.height = exportResolutionY;
+                var ctx2 = c.getContext('2d')!;
+
+                for (var i = 0; i < event.data.data.length; i += 4) {
+                    var index = i / 4;
+                    ctx2.fillStyle = "rgba(" + event.data.data[i] + "," + event.data.data[i + 1] + "," + event.data.data[i + 2] + "," + 1.0 + ")";
+                    ctx2.fillRect(index % workerMessage.xRes, (Math.trunc(index / workerMessage.xRes) + 1), 1, 1);
+                }
+
+                var link = document.createElement('a');
                 link.download = 'mandelbrotHighRes.png';
-                link.href = canvas.toDataURL();
+                link.href = c.toDataURL();
                 link.click();
+
                 this.isExporting = false;
                 this.exportProgress = "";
 
@@ -278,4 +288,6 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
             this.exportProgress = "";
         };
     }
+
+    
 }
