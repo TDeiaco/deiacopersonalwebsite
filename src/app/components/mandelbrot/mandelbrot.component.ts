@@ -202,8 +202,6 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
 
         this.worker.onmessage = (event: MessageEvent) => {
             this.isWorkerBusy = false;
-            
-            console.log(event.data)
             if (event.data instanceof ImageData) {
                 this.ctx.putImageData(event.data, 0, 0);
                 this.isRendering = false; // set to false when rendering is complete
