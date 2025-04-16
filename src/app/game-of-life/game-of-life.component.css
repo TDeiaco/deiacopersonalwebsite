@@ -1,0 +1,50 @@
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: sans-serif; /* Basic font */
+  }
+  
+  .controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px; /* Space between buttons */
+  }
+  
+  /* Style the grid tiles */
+  mat-grid-tile {
+    border: 1px solid #ccc; /* Light grey border for cells */
+    transition: background-color 0.1s ease-in-out; /* Smooth transition */
+    cursor: pointer; /* Indicate cells are clickable */
+  }
+  
+  /* Style for alive cells */
+  .alive {
+    background-color: #333; /* Dark color for live cells */
+  }
+  
+  /* Style for dead cells */
+  .dead {
+    background-color: #f0f0f0; /* Light color for dead cells */
+  }
+  
+  /* Hover effect for dead cells when game is stopped */
+  mat-grid-tile.dead:not(.disabled):hover {
+     background-color: #e0e0e0; /* Slightly darker on hover */
+  }
+  
+  /* Disable cursor pointer when game is running */
+  .game-container[ng-reflect-is-running="true"] mat-grid-tile {
+      cursor: default;
+  }
+  
+  /* Ensure grid list takes appropriate space */
+  mat-grid-list {
+      width: 80%; /* Adjust width as needed */
+      max-width: 800px; /* Max width for larger screens */
+      border: 1px solid #aaa; /* Border around the whole grid */
+      margin: 0 auto; /* Center the grid */
+      background-color: #eee; /* Background for the grid container itself */
+  }
+  
