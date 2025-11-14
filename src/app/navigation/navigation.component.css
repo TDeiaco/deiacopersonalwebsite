@@ -15,3 +15,10 @@
   top: 0;
   z-index: 1;
 }
+
+.multiline-nav-item {
+  height: auto !important;              /* Allow the item to grow vertically */
+  white-space: normal;                  /* Allow line breaks */
+  line-height: 1.4;                     /* Optional: improve spacing */
+  align-items: flex-start !important;   /* Align content to the top */
+}
