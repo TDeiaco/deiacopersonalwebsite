@@ -2,3 +2,83 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Design tokens */
+:root{
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --muted: #6b7280;
+  --text: #0f1724;
+  --primary: #0a66c2; /* LinkedIn-blue as an accent */
+  --glass: rgba(255,255,255,0.7);
+  --card-shadow: 0 10px 30px rgba(16,24,40,0.08);
+  --radius-lg: 12px;
+  --radius-md: 8px;
+}
+
+/* Base */
+*{box-sizing:border-box}
+html,body,#root,app-root{height:100%}
+body{
+  margin:0;
+  font-family: 'Roboto', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  background: linear-gradient(180deg,var(--bg) 0%, #eef3f9 100%);
+  color:var(--text);
+  line-height:1.45;
+  -webkit-font-feature-settings: "liga" 1;
+}
+
+/* Layout helpers */
+.container{max-width:1100px;margin:0 auto;padding:24px;width:calc(100% - 48px)}
+.screen-center{display:flex;align-items:center;justify-content:center;height:100%}
+
+/* Cards */
+.card{
+  background:var(--surface);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--card-shadow);
+  padding:20px;
+  overflow:hidden;
+}
+
+/* Subtle headings */
+.h1{font-size:1.6rem;font-weight:600;margin:0 0 12px}
+.h2{font-size:1.125rem;font-weight:500;margin:0 0 10px;color:var(--text)}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:8px 14px;border-radius:8px;border:0;cursor:pointer;
+  font-weight:500;color:#fff;background:var(--primary);box-shadow:0 6px 18px rgba(10,102,194,0.12);
+  transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.btn.secondary{
+  background:transparent;color:var(--primary);border:1px solid rgba(10,102,194,0.12);
+  box-shadow:none;
+}
+.btn:hover{transform:translateY(-2px);opacity:0.98}
+.icon{
+  display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;
+}
+
+/* Links */
+a{color:var(--primary);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Footer */
+.app-footer{
+  margin-top:28px;background:transparent;padding:18px 0;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;font-size:.95rem;
+}
+
+/* Utilities */
+.row{display:flex;gap:16px;align-items:center}
+.col{display:flex;flex-direction:column;gap:12px}
+
+/* Responsive */
+@media (max-width:900px){
+  .container{padding:16px}
+  .card{border-radius:10px}
+}
