@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { PhotographyComponent } from './components/photography/photography.component';
 import { SoftwareComponent } from './components/software/software.component';
 import { BioComponent } from './components/bio/bio.component';
 import { MandelbrotComponent } from './components/mandelbrot/mandelbrot.component';
 import { HomeComponent } from './components/home/home.component';
-import { GameOfLifeComponent } from './game-of-life/game-of-life.component';
+import { GameOfLifeComponent } from './components/game-of-life/game-of-life.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/mandelbrot', pathMatch: 'full' },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home', component: HomeComponent },
     { path: 'mandelbrot', component: MandelbrotComponent },
     // { path: 'photography', component: PhotographyComponent },
     { path: 'gameoflife', component: GameOfLifeComponent },

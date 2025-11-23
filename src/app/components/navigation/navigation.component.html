@@ -3,7 +3,11 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Deiaco's<br>Developments</mat-toolbar>
+    <mat-toolbar>
+      <a href="/home" class="toolbar-link" style="text-decoration:none;color:inherit;">
+        Deiaco's<br>Developments
+      </a>
+    </mat-toolbar>
     <mat-nav-list>
       <a mat-list-item href="/mandelbrot">Mandelbrot</a>
       <!-- <a mat-list-item href="/photography">Photography</a> -->
@@ -16,18 +20,6 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    
-    <!-- <mat-toolbar color="primary">
-      @if (isHandset$ | async) {
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-      }
-    </mat-toolbar> -->
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
