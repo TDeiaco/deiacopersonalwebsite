@@ -17,7 +17,13 @@ export class PhotographyComponent implements OnInit {
   image_urls: string[] = [];
   albums_to_load: string[] = ['Fancy Lake', 'Green River trip w/ Brad', 'Colorado Trail Sec 2'];
   loading = false;
-  errorMessage?: string;
+
+  // modal state
+  selectedImage: string | null = null;
+
+  // New properties for album metadata
+  currentAlbumName = '';
+  currentAlbumDescription = '';
 
   constructor(private flickrService: FlickrService) {}
 
@@ -31,19 +37,58 @@ export class PhotographyComponent implements OnInit {
   getPhotoUrlsInAlbum(albumName: string): void {
     if (!albumName) return;
     this.loading = true;
-    this.errorMessage = undefined;
     this.image_urls = [];
+    this.currentAlbumName = '';
+    this.currentAlbumDescription = '';
 
-    this.flickrService.getPhotoUrlsInAlbum(albumName).subscribe({
-      next: (urls: string[]) => {
-        this.image_urls = urls || [];
-        this.loading = false;
+    // First fetch album info (title + description), then fetch photos
+    this.flickrService.getPhotoSetInfo(albumName).subscribe({
+      next: info => {
+        if (info) {
+          this.currentAlbumName = info.title || albumName;
+          this.currentAlbumDescription = info.description || '';
+        } else {
+          // fallback to the provided name if not found
+          this.currentAlbumName = albumName;
+          this.currentAlbumDescription = '';
+        }
+
+        // Now load photos for the album (service will return [] on failure)
+        this.flickrService.getPhotoUrlsInAlbum(albumName).subscribe({
+          next: (urls: string[]) => {
+            this.image_urls = urls || [];
+            this.loading = false;
+          },
+          error: (err) => {
+            console.error('Error fetching photos for album', albumName, err);
+            this.loading = false;
+          }
+        });
       },
-      error: (err) => {
-        console.error('Error fetching photos for album', albumName, err);
-        this.errorMessage = 'Failed to load photos. See console for details.';
-        this.loading = false;
+      error: err => {
+        console.error('Error fetching album info for', albumName, err);
+        // still try to load photos even if info failed
+        this.currentAlbumName = albumName;
+        this.currentAlbumDescription = '';
+        this.flickrService.getPhotoUrlsInAlbum(albumName).subscribe({
+          next: (urls: string[]) => {
+            this.image_urls = urls || [];
+            this.loading = false;
+          },
+          error: (err2) => {
+            console.error('Error fetching photos for album', albumName, err2);
+            this.loading = false;
+          }
+        });
       }
     });
+  }
+
+  openImage(url: string) {
+    this.selectedImage = url;
+  }
+
+  closeImage() {
+    this.selectedImage = null;
   }
 }

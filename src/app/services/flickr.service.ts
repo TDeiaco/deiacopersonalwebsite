@@ -60,6 +60,31 @@ export class FlickrService {
     );
   }
 
+  // New: get basic photoset info (id, title, description)
+  getPhotoSetInfo(photosetName: string): Observable<{ id: string; title: string; description: string } | null> {
+    let params = new HttpParams()
+      .set('method', 'flickr.photosets.getList')
+      .set('api_key', this.flickrOptions.apiKey)
+      .set('user_id', this.flickrOptions.taylorsUserId)
+      .set('format', 'json')
+      .set('nojsoncallback', '1');
+
+    return this.http.get<any>('https://api.flickr.com/services/rest/', { params }).pipe(
+      map(res => {
+        if (!res || res.stat !== 'ok') return null;
+        const sets = res.photosets?.photoset || [];
+        const found = sets.find((s: any) => {
+          const title = s.title?._content ?? s.title;
+          return title === photosetName;
+        });
+        if (!found) return null;
+        const title = found.title?._content ?? found.title ?? photosetName;
+        const description = found.description?._content ?? found.description ?? '';
+        return { id: found.id, title, description };
+      })
+    );
+  }
+
   // Get photos in a photoset (returns JSON)
   getPhotoUrlsInAlbum(albumName = '', perPage = 500): Observable<string[]> {
     return this.getPhotoSetId(albumName).pipe(

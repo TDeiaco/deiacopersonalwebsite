@@ -1,21 +1,37 @@
 <div class="photography-gallery">
   <h1>Photography</h1>
 
-  <div class="album-select">
-    <label for="album-select">Select album:</label>
-    <select id="album-select" #albumSelect (change)="getPhotoUrlsInAlbum(albumSelect.value ?? '')">
-      <option value="" disabled selected>Choose an album</option>
-      <option *ngFor="let album of albums_to_load" [value]="album">{{ album }}</option>
+  <!-- Album header + description -->
+  <div *ngIf="currentAlbumName" class="album-header">
+    <!-- combobox placed where the Name label was; label removed -->
+    <select id="album-select" #albumSelect
+            (change)="getPhotoUrlsInAlbum(albumSelect.value ?? '')"
+            class="large-combobox"
+            style="width:100%; font-size:1.25rem; padding:10px 12px; box-sizing:border-box;">
+      <option value="" disabled>Choose an album</option>
+      <option *ngFor="let album of albums_to_load" [value]="album" [selected]="album === currentAlbumName">
+        {{ album }}
+      </option>
     </select>
+
+    <p class="album-description" *ngIf="currentAlbumDescription">{{ currentAlbumDescription }}</p>
   </div>
 
-  <div *ngIf="!image_urls || image_urls.length === 0" class="empty">
-    No photos to display.
-  </div>
+  <div *ngIf="loading">Loading photos...</div>
+ 
+  <!-- removed separate album-select block (combobox moved into header) -->
 
   <mat-grid-list cols="3" rowHeight="200px" gutterSize="8px" *ngIf="image_urls && image_urls.length">
     <mat-grid-tile *ngFor="let url of image_urls">
-      <img [src]="url" alt="photo" class="photo-img" />
+      <img [src]="url" alt="photo" class="photo-img" (click)="openImage(url)" />
     </mat-grid-tile>
   </mat-grid-list>
+</div>
+
+<!-- image modal -->
+<div class="image-modal" *ngIf="selectedImage" (click)="closeImage()">
+  <div class="image-modal-content" (click)="$event.stopPropagation()">
+    <button class="image-modal-close" (click)="closeImage()" aria-label="Close">✕</button>
+    <img [src]="selectedImage" alt="large photo" class="image-modal-img" />
+  </div>
 </div>
