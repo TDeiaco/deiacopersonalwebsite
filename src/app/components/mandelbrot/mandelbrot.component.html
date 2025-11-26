@@ -1,47 +1,51 @@
-<div class="container">
-    <div class="row">
-      <div class="col-12" style="display: flex; align-items: flex-start;">
+<div class="container" style="padding-left:0; padding-right:0;">
+  <div class="row">
+    <div class="col-12" style="display:flex; align-items:flex-start; justify-content:flex-start; gap:16px;">
 
-        <div style="width: 600px; height: 600px; margin-right: 10px;">
-          <canvas width="600" height="600" #fractalCanvas style="border: 1px solid #ccc;"></canvas>
-        </div>
+      <!-- Fractal canvas pinned to the left, fixed width -->
+      <div >
+        <canvas [width]="xRes" [height]="yRes" #fractalCanvas style="border:1px solid #ccc; margin-left: -4rem;"></canvas>
+      </div>
 
-        <div style="display: flex; flex-direction: column;">
-          <input type="button" (click)="renderFractal()" value="Render" style="margin-bottom: 5px;" />
-          <input type="button" value="Reset" (click)="resetHomeAndRender()" style="margin-bottom: 5px;" />
-          <label style="margin-top: 10px; margin-bottom: 5px;">Iterations</label>
-          <input id="iterationCountInput" [(ngModel)]="iterationCount" min="2" style="margin-bottom: 5px;" />
-          
-          <label style="margin-top: 10px; margin-bottom: 5px;">Enable Custom Coloring
-            <input type="checkbox" style="margin: 4px;" [(ngModel)]="useColorFormat" /> 
+      <!-- Right-side controls take remaining space -->
+      <div style="flex:1 1 auto; display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; flex-direction:column;">
+          <input type="button" (click)="renderFractal()" value="Render" style="margin-bottom:5px;" />
+          <input type="button" value="Reset" (click)="resetHomeAndRender()" style="margin-bottom:5px;" />
+          <label style="margin-top:10px; margin-bottom:5px;">Iterations</label>
+          <input id="iterationCountInput" [(ngModel)]="iterationCount" min="2" style="margin-bottom:5px;" />
+
+          <label style="margin-top:10px; margin-bottom:5px;">
+            Enable Custom Coloring
+            <input type="checkbox" style="margin:4px;" [(ngModel)]="useColorFormat" />
           </label>
-          <h6 *ngIf="useColorFormat" style="margin: 4px;">Red Channel:</h6>
-          <input *ngIf="useColorFormat" style="margin: 4px;" type="text" id="colorFormatR" [(ngModel)]="colorFormatR" class="form-control" />
-          <h6 *ngIf="useColorFormat" style="margin: 4px;">Green Channel:</h6>
-          <input *ngIf="useColorFormat" style="margin: 4px;" type="text" id="colorFormatG" [(ngModel)]="colorFormatG" class="form-control" />
-          <h6 *ngIf="useColorFormat" style="margin: 4px;">Blue Channel:</h6>
-          <input *ngIf="useColorFormat" style="margin: 4px;" type="text" id="colorFormatB" [(ngModel)]="colorFormatB" class="form-control" />    
-          
+
+          <h6 *ngIf="useColorFormat" style="margin:4px;">Red Channel:</h6>
+          <input *ngIf="useColorFormat" style="margin:4px;" type="text" id="colorFormatR" [(ngModel)]="colorFormatR" class="form-control" />
+          <h6 *ngIf="useColorFormat" style="margin:4px;">Green Channel:</h6>
+          <input *ngIf="useColorFormat" style="margin:4px;" type="text" id="colorFormatG" [(ngModel)]="colorFormatG" class="form-control" />
+          <h6 *ngIf="useColorFormat" style="margin:4px;">Blue Channel:</h6>
+          <input *ngIf="useColorFormat" style="margin:4px;" type="text" id="colorFormatB" [(ngModel)]="colorFormatB" class="form-control" />
+
           <div id="renderingSpinner" [style.visibility]="isRendering ? 'visible' : 'hidden'">
             <span class="spinner-grow spinner-grow-sm"></span>
             Rendering...
           </div>
-          <input  type="button" value="Export Render" (click)="exportRender($event)"/>
-          <label>Resolution: 
-            <input type="number" min="6" [(ngModel)]="exportResolution" id="horzRes"  class="form-control"/>
+          <input type="button" value="Export Render" (click)="exportRender($event)" />
+          <label>Resolution:
+            <input type="number" min="6" [(ngModel)]="exportResolution" id="horzRes" class="form-control" />
           </label>
           <div id="exportSpinner" [style.visibility]="isExporting ? 'visible' : 'hidden'">
-          <span class="spinner-grow spinner-grow-sm"></span>
-              Exporting... {{exportProgress}}<br />
+            <span class="spinner-grow spinner-grow-sm"></span>
+            Exporting... {{exportProgress}}<br />
+          </div>
         </div>
 
-
-      </div>
-        <div style="display: flex; flex-direction: column;">
-          <div style="margin: 12px;">
+        <div style="display:flex; flex-direction:column;">
+          <div style="margin:12px;">
             <h3>Instructions:</h3>
-            <p style="text-align: left;">
-              After initial loading of Mandlebrot, click anywhere on the<br />
+            <p style="text-align:left;">
+              After initial loading of Mandelbrot, click anywhere on the<br />
               image to zoom in.<br />
               - Alt+Click to Zoom out.<br />
               - Ctrl+Click to move around.<br />
@@ -54,21 +58,23 @@
               <a href="https://mathjs.org/docs/expressions/syntax.html" target="_blank"> Click here for expression details.</a>
             </p>
           </div>
-         </div>
+        </div>
 
-         <div style="display: flex; flex-direction: column;">
+        <div style="display:flex; flex-direction:column;">
           <label> Real Coordinate:</label>
-          <input type="number" [(ngModel)]="windowCoords.real" class="form-control"/>
+          <input type="number" [(ngModel)]="windowCoords.real" class="form-control" />
 
           <label> Img Coordinate:</label>
-          <input type="number" [(ngModel)]="windowCoords.img" class="form-control"/>
+          <input type="number" [(ngModel)]="windowCoords.img" class="form-control" />
 
           <label> Real Window:</label>
-          <input type="number" [(ngModel)]="windowCoords.realRange" class="form-control"/>
+          <input type="number" [(ngModel)]="windowCoords.realRange" class="form-control" />
 
           <label> Img Window:</label>
-          <input type="number" [(ngModel)]="windowCoords.imgRange" class="form-control"/>
+          <input type="number" [(ngModel)]="windowCoords.imgRange" class="form-control" />
         </div>
       </div>
+
     </div>
   </div>
+</div>

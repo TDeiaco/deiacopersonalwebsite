@@ -16,9 +16,11 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     private ctx!: CanvasRenderingContext2D;
     private worker: Worker;
     private isWorkerBusy = false;
+    public xRes = 700;
+    public yRes = 700;
 
     // Component properties to hold form values
-    iterationCount = 100;
+    iterationCount = 500;
     useColorFormat = false;
     colorFormatR = 'iters%255';
     colorFormatG = '(iters%127)*2';
@@ -34,8 +36,6 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     _maxX = 1.0;
     _minY = -1.5;
     _maxY = 1.5;
-    _xRes = 600;
-    _yRes = 600;
     windowCoords : {real:number, img:number, realRange:number, imgRange:number} 
         = {real:0,img:0,realRange:0,imgRange:0}
         
@@ -82,8 +82,8 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     zoom(percent: number) {
         const frameWidth = this._maxX - this._minX;
         const frameHeight = this._maxY - this._minY;
-        const pixelWidth = frameWidth / this._xRes;
-        const pixelHeight = frameHeight / this._yRes;
+        const pixelWidth = frameWidth / this.xRes;
+        const pixelHeight = frameHeight / this.yRes;
 
         const pixelX = this._minX + (pixelWidth * this.currentX) + (0.5 * pixelWidth);
         const pixelY = this._maxY - (pixelHeight * this.currentY) + (0.5 * pixelHeight);
@@ -99,8 +99,8 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     getWindowCoords(){
         var frameWidth = this._maxX - this._minX;
         var frameHeight = this._maxY - this._minY;
-        var pixelWidth = frameWidth / this._xRes;
-        var pixelHeight = frameHeight / this._yRes;
+        var pixelWidth = frameWidth / this.xRes;
+        var pixelHeight = frameHeight / this.yRes;
         var real = this._minX + (pixelWidth * this.currentX) + (0.5 * pixelWidth);
         var img = this._maxY - (pixelHeight * this.currentY) + (0.5 * pixelHeight);
         var realRange = this._maxX - this._minX;
@@ -109,8 +109,8 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
     }
 
     resetHomeAndRender() {
-        this._xRes = 600;
-        this._yRes = 600;
+        // this.xRes = 600;
+        // this.yRes = 600;
         this._minX = -2.0;
         this._maxX = 1.0;
         this._minY = -1.5;
@@ -178,8 +178,8 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
         this.isWorkerBusy = true;
         this.isRendering = true; // set to true before starting render
         const canvas = this.canvas.nativeElement;
-        this._xRes = canvas.width;
-        this._yRes = canvas.height;
+        this.xRes = canvas.width;
+        this.yRes = canvas.height;
 
 
         const workerMessage = {
@@ -188,8 +188,8 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
             minX: this._minX,
             maxY: this._maxY,
             minY: this._minY,
-            xRes: this._xRes,
-            yRes: this._yRes,
+            xRes: this.xRes,
+            yRes: this.yRes,
             useColorFormat: this.useColorFormat,
             colorFormatR: this.colorFormatR,
             colorFormatG: this.colorFormatG,
@@ -210,7 +210,7 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
                 for (var i = 0; i < event.data.data.length; i += 4) {
                     var index = i / 4;
                     this.ctx.fillStyle = "rgba(" + event.data.data[i] + "," + event.data.data[i + 1] + "," + event.data.data[i + 2] + "," + 1.0 + ")";
-                    this.ctx.fillRect(index % this._xRes, (Math.trunc(index / this._xRes) + 1), 1, 1);
+                    this.ctx.fillRect(index % this.xRes, (Math.trunc(index / this.xRes) + 1), 1, 1);
                 }
 
                 const endTime = Date.now();
