@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -12,9 +12,10 @@ import { map, shareReplay } from 'rxjs/operators';
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.css',
+  styleUrls: ['./navigation.component.css'],
   standalone: true,
   imports: [
+    CommonModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -31,4 +32,10 @@ export class NavigationComponent {
       map(result => result.matches),
       shareReplay()
     );
+
+  showAlgorithms = false;
+
+  toggleAlgorithms() {
+    this.showAlgorithms = !this.showAlgorithms;
+  }
 }

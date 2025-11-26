@@ -1,47 +1,49 @@
-import { Component, inject } from '@angular/core';
-import { Inject } from '@angular/core';
-import { FlickrService } from '../../services/flickr.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { GameOfLifeComponent } from '../game-of-life/game-of-life.component';
-
+import { Component, OnInit } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
-import { NgFor } from '@angular/common';
-
+import { CommonModule } from '@angular/common';
+import { FlickrService } from '../../services/flickr.service';
 
 @Component({
   selector: 'app-photography',
   standalone: true,
-  imports: [HttpClientModule, MatGridListModule, MatButtonModule, GameOfLifeComponent],
+  imports: [HttpClientModule, MatGridListModule, MatButtonModule, CommonModule],
   providers: [FlickrService],
   templateUrl: './photography.component.html',
-  styleUrl: './photography.component.css'
+  styleUrls: ['./photography.component.css']
 })
-export class PhotographyComponent {
-  private flickrService: FlickrService = inject(FlickrService);  // Inject service
-  image_urls: string [] = [];
+export class PhotographyComponent implements OnInit {
+  image_urls: string[] = [];
+  albums_to_load: string[] = ['Fancy Lake', 'Green River trip w/ Brad', 'Colorado Trail Sec 2'];
+  loading = false;
+  errorMessage?: string;
 
-  constructor()
-  {}
+  constructor(private flickrService: FlickrService) {}
 
   ngOnInit(): void {
-    // Call getPhotoUrls and subscribe to the result
-    this.getPhotoUrls();
+    // load the first album by default if available
+    if (this.albums_to_load && this.albums_to_load.length > 0) {
+      this.getPhotoUrlsInAlbum(this.albums_to_load[0]);
+    }
   }
 
-  // Call the service method and set the result to the variable
-  getPhotoUrls(): void {
-    this.flickrService.getPhotoUrls().subscribe({
-      next:(urls: string[]) => {
-        // Set the retrieved photo URLs to the component variable
-        this.image_urls = urls;
-        console.log(this.image_urls)
-        //console.log('Fetched Photo URLs:', this.image_urls); // Optionally log the result
+  getPhotoUrlsInAlbum(albumName: string): void {
+    if (!albumName) return;
+    this.loading = true;
+    this.errorMessage = undefined;
+    this.image_urls = [];
+
+    this.flickrService.getPhotoUrlsInAlbum(albumName).subscribe({
+      next: (urls: string[]) => {
+        this.image_urls = urls || [];
+        this.loading = false;
       },
-      error:(error) => {
-        // Handle any errors
-        console.error('Error fetching photo URLs:', error);
-      }}
-    );
+      error: (err) => {
+        console.error('Error fetching photos for album', albumName, err);
+        this.errorMessage = 'Failed to load photos. See console for details.';
+        this.loading = false;
+      }
+    });
   }
 }
