@@ -32,6 +32,10 @@
 <div class="image-modal" *ngIf="selectedImage" (click)="closeImage()">
   <div class="image-modal-content" (click)="$event.stopPropagation()">
     <button class="image-modal-close" (click)="closeImage()" aria-label="Close">✕</button>
+
+    <button class="image-nav-button left" (click)="prevImage()" aria-label="Previous image" *ngIf="image_urls.length > 1">‹</button>
     <img [src]="selectedImage" alt="large photo" class="image-modal-img" />
+    <button class="image-nav-button right" (click)="nextImage()" aria-label="Next image" *ngIf="image_urls.length > 1">›</button>
+
   </div>
 </div>

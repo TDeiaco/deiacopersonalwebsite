@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,11 +15,15 @@ import { FlickrService } from '../../services/flickr.service';
 })
 export class PhotographyComponent implements OnInit {
   image_urls: string[] = [];
-  albums_to_load: string[] = ['Fancy Lake', 'Green River trip w/ Brad', 'Colorado Trail Sec 2'];
+  albums_to_load: string[] = ['Fancy Lake', 
+                              'Green River trip w/ Brad', 
+                              'Colorado Trail Sec 2',
+                              'BlackLivesMatter, Denver CO'];
   loading = false;
 
   // modal state
   selectedImage: string | null = null;
+  currentIndex = -1;
 
   // New properties for album metadata
   currentAlbumName = '';
@@ -85,10 +89,48 @@ export class PhotographyComponent implements OnInit {
   }
 
   openImage(url: string) {
-    this.selectedImage = url;
+    this.currentIndex = this.image_urls.indexOf(url);
+    if (this.currentIndex === -1 && this.image_urls.length) {
+      this.currentIndex = 0;
+    }
+    this.selectedImage = this.image_urls[this.currentIndex] ?? url;
   }
 
   closeImage() {
     this.selectedImage = null;
+    this.currentIndex = -1;
+  }
+
+  prevImage() {
+    if (!this.image_urls || this.image_urls.length === 0) return;
+    if (this.currentIndex <= 0) {
+      this.currentIndex = this.image_urls.length - 1;
+    } else {
+      this.currentIndex--;
+    }
+    this.selectedImage = this.image_urls[this.currentIndex];
+  }
+
+  nextImage() {
+    if (!this.image_urls || this.image_urls.length === 0) return;
+    if (this.currentIndex >= this.image_urls.length - 1) {
+      this.currentIndex = 0;
+    } else {
+      this.currentIndex++;
+    }
+    this.selectedImage = this.image_urls[this.currentIndex];
+  }
+
+  // keyboard support: Esc to close, arrows to navigate
+  @HostListener('window:keydown', ['$event'])
+  handleKeydown(event: KeyboardEvent) {
+    if (!this.selectedImage) return;
+    if (event.key === 'Escape') {
+      this.closeImage();
+    } else if (event.key === 'ArrowLeft') {
+      this.prevImage();
+    } else if (event.key === 'ArrowRight') {
+      this.nextImage();
+    }
   }
 }

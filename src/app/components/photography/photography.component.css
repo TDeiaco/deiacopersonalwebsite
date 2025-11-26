@@ -48,6 +48,41 @@
   border-radius: 6px;
 }
 
+/* nav arrows */
+.image-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  opacity: 0.95;
+}
+
+.image-nav-button.left {
+  left: -22px;
+}
+
+.image-nav-button.right {
+  right: -22px;
+}
+
+/* ensure buttons don't overlap image on small screens */
+@media (max-width: 600px) {
+  .image-nav-button.left { left: 8px; }
+  .image-nav-button.right { right: 8px; }
+}
+
+/* existing close button and img styles */
 .image-modal-img {
   max-width: 100%;
   max-height: 100%;
@@ -55,7 +90,6 @@
   border-radius: 4px;
 }
 
-/* close button */
 .image-modal-close {
   position: absolute;
   top: -12px;
@@ -79,3 +113,5 @@
   cursor: zoom-in;
   display: block;
 }
+
+/* ...existing code... */
