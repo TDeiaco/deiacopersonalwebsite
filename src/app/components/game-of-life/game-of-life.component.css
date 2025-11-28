@@ -48,4 +48,13 @@
       margin: 0 auto; /* Center the grid */
       background-color: #eee; /* Background for the grid container itself */
   }
-  
+
+  /* show crosshair while drawing */
+.game-container.drawing mat-grid-tile {
+  cursor: crosshair;
+}
+
+/* ensure pointer when not drawing */
+mat-grid-tile {
+  cursor: pointer;
+}

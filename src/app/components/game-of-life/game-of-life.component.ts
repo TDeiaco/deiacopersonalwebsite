@@ -1,5 +1,5 @@
 import { NgClass, NgFor } from '@angular/common';
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 
@@ -22,6 +22,10 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
   activeCells = new Set<string>();
   isRunning = false;
   private intervalId: any = null;
+
+  // drawing state for click-and-drag painting
+  isDrawing = false;
+  drawAlive = true; // when true we paint alive cells, when false we paint dead
 
   // Inject ChangeDetectorRef for manual change detection triggering
   constructor(private cd: ChangeDetectorRef) { }
@@ -181,5 +185,36 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
   }
   get colsArray(): number[] {
     return Array.from({ length: this.cols }, (_, i) => i);
+  }
+
+  // Called on mouse down over a cell. left-button = paint alive, right-button = paint dead
+  onCellMouseDown(i: number, j: number, event: MouseEvent) {
+    event.preventDefault();
+    this.isDrawing = true;
+    this.drawAlive = event.button === 0; // 0 = left, 2 = right
+    this.applyDraw(i, j);
+  }
+
+  // Called when entering a cell while mouse is held down
+  onCellMouseEnter(i: number, j: number, event: MouseEvent) {
+    if (!this.isDrawing) return;
+    this.applyDraw(i, j);
+  }
+
+  // Apply the current draw mode to the given cell (uses existing helpers)
+  private applyDraw(i: number, j: number) {
+    const alive = this.drawAlive;
+    const currentlyAlive = this.isCellAlive(i, j);
+    if (alive && !currentlyAlive) {
+      this.toggleCell(i, j); // flip to alive
+    } else if (!alive && currentlyAlive) {
+      this.toggleCell(i, j); // flip to dead
+    }
+  }
+
+  // Stop drawing when mouse is released anywhere
+  @HostListener('window:mouseup')
+  onWindowMouseUp() {
+    this.isDrawing = false;
   }
 }

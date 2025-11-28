@@ -1,19 +1,21 @@
-<div class="game-container">
+<div class="game-container" [class.drawing]="isDrawing">
   <div class="controls">
     <button mat-raised-button color="primary" (click)="startGame()" [disabled]="isRunning">Start</button>
     <button mat-raised-button color="accent" (click)="stopGame()" [disabled]="!isRunning">Stop</button>
     <button mat-raised-button (click)="resetGame()" [disabled]="isRunning">Reset</button>
     <button mat-raised-button (click)="randomizeGrid()" [disabled]="isRunning">Randomize</button>
-     <button mat-raised-button (click)="nextGeneration()" [disabled]="isRunning">Next Step</button>
+    <button mat-raised-button (click)="nextGeneration()" [disabled]="isRunning">Next Step</button>
   </div>
 
   <mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="0px">
-    <div *ngFor="let i of rowsArray">
-      <mat-grid-tile *ngFor="let j of colsArray"
-                     [ngClass]="{'alive': isCellAlive(i, j), 'dead': !isCellAlive(i, j)}"
-                     (click)="toggleCell(i, j)">
-        </mat-grid-tile>
-    </div>
+    <ng-container *ngFor="let i of rowsArray; let ri = index">
+      <mat-grid-tile *ngFor="let j of colsArray; let cj = index"
+                     [ngClass]="{'alive': isCellAlive(ri, cj), 'dead': !isCellAlive(ri, cj)}"
+                     (click)="toggleCell(ri, cj)"
+                     (mousedown)="onCellMouseDown(ri, cj, $event)"
+                     (mouseenter)="onCellMouseEnter(ri, cj, $event)"
+                     (contextmenu)="$event.preventDefault()">
+      </mat-grid-tile>
+    </ng-container>
   </mat-grid-list>
-
 </div>
