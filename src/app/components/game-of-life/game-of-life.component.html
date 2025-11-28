@@ -7,7 +7,7 @@
      <button mat-raised-button (click)="nextGeneration()" [disabled]="isRunning">Next Step</button>
   </div>
 
-  <mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="1px">
+  <mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="0px">
     <div *ngFor="let i of rowsArray">
       <mat-grid-tile *ngFor="let j of colsArray"
                      [ngClass]="{'alive': isCellAlive(i, j), 'dead': !isCellAlive(i, j)}"

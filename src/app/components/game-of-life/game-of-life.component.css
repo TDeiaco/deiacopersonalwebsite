@@ -41,6 +41,7 @@
   
   /* Ensure grid list takes appropriate space */
   mat-grid-list {
+      padding-bottom: 0rem !important;
       width: 80%; /* Adjust width as needed */
       max-width: 800px; /* Max width for larger screens */
       border: 1px solid #aaa; /* Border around the whole grid */
