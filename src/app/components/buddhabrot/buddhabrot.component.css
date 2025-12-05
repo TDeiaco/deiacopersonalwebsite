@@ -1,0 +1,35 @@
+.buddha-container {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 8px;
+}
+
+.left {
+  flex: 0 0 auto;
+}
+
+.right {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.buddha-canvas {
+  border: 1px solid #ccc;
+  image-rendering: pixelated;
+  /* match mandelbrot default size but canvas element controls internal resolution */
+  width: 700px;
+  height: 700px;
+}
+
+.controls button {
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+.params label {
+  display: block;
+  margin-bottom: 6px;
+}

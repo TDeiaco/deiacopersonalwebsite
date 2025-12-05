@@ -1,0 +1,46 @@
+<div class="buddha-container">
+  <div class="left">
+    <canvas #buddhaCanvas [width]="xRes" [height]="yRes" class="buddha-canvas"></canvas>
+  </div>
+
+  <div class="right">
+    <div class="controls">
+      <button (click)="start()" [disabled]="isRunning">Start</button>
+      <button (click)="stop()" [disabled]="!isRunning">Stop</button>
+      <button (click)="singleBatch()">Single Batch</button>
+      <button (click)="resetAccumulator()">Clear</button>
+      <button (click)="resetView()">Reset View</button>
+    </div>
+
+    <div class="params">
+      <label>Samples Per Batch:
+        <input type="number" min="1" [(ngModel)]="samplesPerBatch" />
+      </label>
+      <label>Iteration Count:
+        <input type="number" min="1" [(ngModel)]="iterationCount" />
+      </label>
+      <label>Hit Weight:
+        <input type="number" min="1" [(ngModel)]="hitWeight" />
+      </label>
+      <label>Batch Interval (ms):
+        <input type="number" min="10" [(ngModel)]="batchIntervalMs" />
+      </label>
+    </div>
+
+    <div class="status">
+      <div>Running: {{ isRunning }}</div>
+      <div>Total samples: {{ totalSamplesProcessed }}</div>
+      <div>Accumulator max: {{ maxAcc }}</div>
+    </div>
+
+    <div class="instructions">
+      <h4>Notes</h4>
+      <ul>
+        <li>Start will repeatedly request random samples; the image will accumulate and become more defined.</li>
+        <li>Single Batch runs one batch and updates the display.</li>
+        <li>Reset clears accumulated hits.</li>
+        <li>Changing view resets accumulator (use Reset View before restarting).</li>
+      </ul>
+    </div>
+  </div>
+</div>
