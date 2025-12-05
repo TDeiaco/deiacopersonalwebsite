@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { DecimalPipe } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -15,7 +14,10 @@ export class BuddhabrotComponent implements AfterViewInit, OnDestroy {
   private ctx!: CanvasRenderingContext2D;
   private worker: Worker;
   isRunning = false;
+
+  // timing / control
   batchIntervalMs = 250;
+  private batchTimer: any = null;
 
   // Buddhabrot parameters
   samplesPerBatch = 50_000; // number of random samples per worker batch
@@ -25,9 +27,10 @@ export class BuddhabrotComponent implements AfterViewInit, OnDestroy {
   // canvas / accumulator
   public xRes = 700;
   public yRes = 700;
-  private accumulator!: Float32Array; // one float per pixel (grayscale hits)
-  public maxAcc = 0;
-  private batchTimer: any = null;
+  // accumulator stores R,G,B per pixel (length = w*h*3)
+  private accumulator!: Float32Array;
+  // per-channel max seen (for normalization)
+  public maxAcc = [0, 0, 0];
   public totalSamplesProcessed = 0;
 
   // view window (same defaults as mandelbrot)
@@ -35,6 +38,10 @@ export class BuddhabrotComponent implements AfterViewInit, OnDestroy {
   _maxX = 1.0;
   _minY = -1.5;
   _maxY = 1.5;
+
+  // batch/channel bookkeeping
+  private batchIndex = 0; // increments each posted batch
+  private pendingChannel: number | null = null; // channel (0=R,1=G,2=B) for the in-flight batch
 
   constructor() {
     // worker is the same fractal worker used for Mandelbrot; path is relative
@@ -64,8 +71,9 @@ export class BuddhabrotComponent implements AfterViewInit, OnDestroy {
   resetAccumulator(): void {
     this.xRes = this.canvas.nativeElement.width;
     this.yRes = this.canvas.nativeElement.height;
-    this.accumulator = new Float32Array(this.xRes * this.yRes);
-    this.maxAcc = 0;
+    const pixels = this.xRes * this.yRes;
+    this.accumulator = new Float32Array(pixels * 3); // R,G,B per pixel
+    this.maxAcc = [0, 0, 0];
     this.totalSamplesProcessed = 0;
     // draw blank
     const blank = new ImageData(this.xRes, this.yRes);
@@ -81,25 +89,37 @@ export class BuddhabrotComponent implements AfterViewInit, OnDestroy {
   start(): void {
     if (this.isRunning) return;
     this.isRunning = true;
-    // post first batch immediately, then schedule
+    // start the post/draw loop; post first batch immediately
     this.postWorkerBatch();
-    this.batchTimer = setInterval(() => this.postWorkerBatch(), this.batchIntervalMs);
   }
 
   stop(): void {
     if (!this.isRunning) return;
-    clearInterval(this.batchTimer);
-    this.batchTimer = null;
     this.isRunning = false;
+    if (this.batchTimer) {
+      clearTimeout(this.batchTimer);
+      this.batchTimer = null;
+    }
+    // Note: if a worker is currently processing, we'll still accept its response,
+    // but we won't queue another batch after it.
   }
 
   singleBatch(): void {
+    // post a single batch without changing running state
     this.postWorkerBatch();
   }
 
   private postWorkerBatch(): void {
     // guard
     if (!this.worker) return;
+    // prevent posting a new batch while one is pending
+    if (this.pendingChannel !== null) return;
+
+    // determine which channel this batch will contribute to
+    const channel = this.batchIndex % 3; // 0 = R, 1 = G, 2 = B
+    this.pendingChannel = channel;
+    this.batchIndex++;
+
     const message = {
       mode: 'nebulabrot', // worker expects this string for buddhabrot/nebulabrot
       maxX: this._maxX,
@@ -111,37 +131,59 @@ export class BuddhabrotComponent implements AfterViewInit, OnDestroy {
       samples: this.samplesPerBatch,
       iterationCount: this.iterationCount,
       hitWeight: this.hitWeight
+      // we intentionally do not require the worker to echo channel back;
+      // the client maps the incoming ImageData to the pendingChannel.
     };
     try {
       this.worker.postMessage(message);
     } catch (err) {
       console.error('Worker.postMessage failed', err);
+      this.pendingChannel = null;
       this.stop();
+      return;
     }
   }
 
   private handleWorkerMessage(e: MessageEvent) {
+    // If the worker returns an ImageData, sum it into the appropriate color accumulator channel.
     if (e.data instanceof ImageData) {
       const img: ImageData = e.data;
-      // sum the R channel into accumulator (worker writes hits into channels)
       const data = img.data;
       const w = img.width;
       const h = img.height;
       const len = w * h;
+
+      // pick the channel that was pending when this batch was posted; if none, use round-robin fallback
+      const channel = this.pendingChannel !== null ? this.pendingChannel : (this.batchIndex % 3);
+
+      // For stability, sum all three channels from worker into the selected accumulator channel.
+      // (Worker may encode hits in any channel; summing ensures energy is captured.)
       for (let p = 0, idx = 0; p < len; p++, idx += 4) {
-        // use red channel as representative hit count
-        const val = data[idx];
-        if (val !== 0) {
-          this.accumulator[p] += val;
-          if (this.accumulator[p] > this.maxAcc) this.maxAcc = this.accumulator[p];
+        const sumHits = data[idx] + data[idx + 1] + data[idx + 2];
+        if (sumHits !== 0) {
+          const base = p * 3 + channel;
+          this.accumulator[base] += sumHits * this.hitWeight;
+          if (this.accumulator[base] > this.maxAcc[channel]) {
+            this.maxAcc[channel] = this.accumulator[base];
+          }
         }
       }
 
       this.totalSamplesProcessed += this.samplesPerBatch;
+
+      // mark that the pending batch has been consumed
+      this.pendingChannel = null;
+
+      // draw the current accumulator to the canvas
       this.drawAccumulatorToCanvas();
+
+      // if still running, schedule the next batch after the interval
+      if (this.isRunning) {
+        this.batchTimer = setTimeout(() => this.postWorkerBatch(), this.batchIntervalMs);
+      }
     } else if (typeof e.data === 'number') {
-      // progress message (optional)
-      // console.log('progress', e.data);
+      // progress message from worker (optional)
+      // console.log('worker progress:', e.data);
     } else {
       // other messages
       // console.log('worker message', e.data);
@@ -149,12 +191,12 @@ export class BuddhabrotComponent implements AfterViewInit, OnDestroy {
   }
 
   private drawAccumulatorToCanvas(): void {
-    // normalize accumulator by current max and draw to canvas
     const w = this.xRes;
     const h = this.yRes;
     const out = this.ctx.createImageData(w, h);
-    if (this.maxAcc <= 0) {
-      // nothing yet
+
+    // if nothing yet, draw blank
+    if (this.maxAcc[0] <= 0 && this.maxAcc[1] <= 0 && this.maxAcc[2] <= 0) {
       for (let i = 0; i < out.data.length; i += 4) {
         out.data[i] = 0;
         out.data[i + 1] = 0;
@@ -165,20 +207,28 @@ export class BuddhabrotComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    // normalization + optional gamma to make faint structure visible
+    // normalization + gamma to make structure visible
     const gamma = 0.6;
-    const max = this.maxAcc;
+
+    const maxR = this.maxAcc[0] > 0 ? this.maxAcc[0] : 1;
+    const maxG = this.maxAcc[1] > 0 ? this.maxAcc[1] : 1;
+    const maxB = this.maxAcc[2] > 0 ? this.maxAcc[2] : 1;
+
     for (let p = 0, dst = 0; p < w * h; p++, dst += 4) {
-      const v = this.accumulator[p] / max;
-      // scale and gamma-correct (adjust gamma to taste)
-      const scaled = Math.pow(v, gamma);
-      const intensity = Math.min(255, Math.floor(scaled * 255));
-      // color mapping: simple grayscale -> map to warm color for nicer look
-      out.data[dst] = Math.min(255, intensity * 1.0);           // R
-      out.data[dst + 1] = Math.min(255, Math.floor(intensity * 0.6)); // G
-      out.data[dst + 2] = Math.min(255, Math.floor(intensity * 0.35)); // B
+      const rAcc = this.accumulator[p * 3 + 0];
+      const gAcc = this.accumulator[p * 3 + 1];
+      const bAcc = this.accumulator[p * 3 + 2];
+
+      const rV = Math.pow(Math.min(1, rAcc / maxR), gamma);
+      const gV = Math.pow(Math.min(1, gAcc / maxG), gamma);
+      const bV = Math.pow(Math.min(1, bAcc / maxB), gamma);
+
+      out.data[dst] = Math.min(255, Math.floor(rV * 255));
+      out.data[dst + 1] = Math.min(255, Math.floor(gV * 255));
+      out.data[dst + 2] = Math.min(255, Math.floor(bV * 255));
       out.data[dst + 3] = 255;
     }
+
     this.ctx.putImageData(out, 0, 0);
   }
 
