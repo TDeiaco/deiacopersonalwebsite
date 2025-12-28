@@ -82,3 +82,19 @@ a:hover{text-decoration:underline}
   .container{padding:16px}
   .card{border-radius:10px}
 }
+
+/* Top decorative bar: repeating 20px squares (blue, white, red, green, yellow) */
+.top-color-bar {
+  position: relative;
+  width: 100%;
+  height: 1.25rem; /* 20px */
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    90deg,
+    #5bb4ff 0 1.25rem,
+    #ffffff 1.25rem 2.5rem,
+    #ff6b6b 2.5rem 3.75rem,
+    #7ee0b8 3.75rem 5rem,
+    #ffd66b 5rem 6.25rem
+  );
+}
