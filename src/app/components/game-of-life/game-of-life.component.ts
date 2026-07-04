@@ -26,6 +26,8 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
   // drawing state for click-and-drag painting
   isDrawing = false;
   drawAlive = true; // when true we paint alive cells, when false we paint dead
+  private hasDraggedSinceMouseDown = false;
+  private pendingDrawCell: { row: number; col: number } | null = null;
 
   // Inject ChangeDetectorRef for manual change detection triggering
   constructor(private cd: ChangeDetectorRef) { }
@@ -192,13 +194,36 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
     event.preventDefault();
     this.isDrawing = true;
     this.drawAlive = event.button === 0; // 0 = left, 2 = right
-    this.applyDraw(i, j);
+    this.hasDraggedSinceMouseDown = false;
+
+    if (this.drawAlive) {
+      this.pendingDrawCell = { row: i, col: j };
+    } else {
+      this.pendingDrawCell = null;
+      this.applyDraw(i, j);
+    }
   }
 
   // Called when entering a cell while mouse is held down
   onCellMouseEnter(i: number, j: number, event: MouseEvent) {
     if (!this.isDrawing) return;
+
+    if (!this.hasDraggedSinceMouseDown && this.pendingDrawCell) {
+      this.applyDraw(this.pendingDrawCell.row, this.pendingDrawCell.col);
+      this.pendingDrawCell = null;
+    }
+
+    this.hasDraggedSinceMouseDown = true;
     this.applyDraw(i, j);
+  }
+
+  onCellClick(i: number, j: number): void {
+    if (this.isRunning || this.hasDraggedSinceMouseDown) {
+      return;
+    }
+
+    this.pendingDrawCell = null;
+    this.toggleCell(i, j);
   }
 
   // Apply the current draw mode to the given cell (uses existing helpers)
@@ -216,5 +241,7 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
   @HostListener('window:mouseup')
   onWindowMouseUp() {
     this.isDrawing = false;
+    this.hasDraggedSinceMouseDown = false;
+    this.pendingDrawCell = null;
   }
 }

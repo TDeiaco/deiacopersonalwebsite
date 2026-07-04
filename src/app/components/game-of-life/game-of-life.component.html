@@ -32,7 +32,7 @@
           <ng-container *ngFor="let i of rowsArray; let ri = index">
             <mat-grid-tile *ngFor="let j of colsArray; let cj = index"
                            [ngClass]="{'alive': isCellAlive(ri, cj), 'dead': !isCellAlive(ri, cj)}"
-                           (click)="toggleCell(ri, cj)"
+                           (click)="onCellClick(ri, cj)"
                            (mousedown)="onCellMouseDown(ri, cj, $event)"
                            (mouseenter)="onCellMouseEnter(ri, cj, $event)"
                            (contextmenu)="$event.preventDefault()">
