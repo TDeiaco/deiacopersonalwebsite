@@ -217,13 +217,6 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
             if (event.data instanceof ImageData) {
                 this.ctx.putImageData(event.data, 0, 0);
                 this.isRendering = false; // set to false when rendering is complete
-                
-
-                for (var i = 0; i < event.data.data.length; i += 4) {
-                    var index = i / 4;
-                    this.ctx.fillStyle = "rgba(" + event.data.data[i] + "," + event.data.data[i + 1] + "," + event.data.data[i + 2] + "," + 1.0 + ")";
-                    this.ctx.fillRect(index % this.xRes, (Math.trunc(index / this.xRes) + 1), 1, 1);
-                }
 
                 const endTime = Date.now();
                 this.elapsedTime = ((endTime - startTime) / 1000).toFixed(2) + " seconds";
@@ -272,12 +265,7 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
                 c.width = exportResolutionX;
                 c.height = exportResolutionY;
                 var ctx2 = c.getContext('2d')!;
-
-                for (var i = 0; i < event.data.data.length; i += 4) {
-                    var index = i / 4;
-                    ctx2.fillStyle = "rgba(" + event.data.data[i] + "," + event.data.data[i + 1] + "," + event.data.data[i + 2] + "," + 1.0 + ")";
-                    ctx2.fillRect(index % workerMessage.xRes, (Math.trunc(index / workerMessage.xRes) + 1), 1, 1);
-                }
+                ctx2.putImageData(event.data, 0, 0);
 
                 var link = document.createElement('a');
                 link.download = 'mandelbrotHighRes.png';

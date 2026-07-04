@@ -80,6 +80,7 @@ function RenderMandelbrot(
                     imageData.data[startIndex + 1] = (iteration % 127) * 2;
                     imageData.data[startIndex + 2] = (iteration % 63) * 4;
                 }
+                imageData.data[startIndex + 3] = 255;
                 // TODO: Lerp the colors
             }
             if (iy % 100 == 0)
