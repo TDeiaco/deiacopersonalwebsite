@@ -47,6 +47,94 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.material-icons,
+.mat-icon {
+  font-family: 'Material Icons' !important;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.mat-drawer-container {
+  background: transparent !important;
+  color: inherit;
+}
+
+.mat-drawer,
+.mat-drawer-side {
+  border-right: 0 !important;
+  background: transparent;
+}
+
+.mat-toolbar,
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  font: inherit;
+  color: inherit;
+}
+
+.mat-mdc-nav-list,
+.mat-mdc-list-base {
+  display: flex !important;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mat-mdc-list-item,
+.mat-mdc-list-item:focus,
+.mat-mdc-list-item:hover {
+  color: inherit !important;
+}
+
+.mat-mdc-list-item-unscoped-content,
+.mat-mdc-list-item .mdc-list-item__primary-text {
+  color: inherit !important;
+  white-space: normal;
+}
+
+.mat-mdc-button-base {
+  font: inherit !important;
+}
+
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-outlined-button {
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+.mat-mdc-raised-button .mdc-button__label,
+.mat-mdc-unelevated-button .mdc-button__label,
+.mat-mdc-outlined-button .mdc-button__label {
+  color: inherit;
+  font-weight: 700;
+}
+
+.mat-mdc-button-disabled,
+.mat-mdc-raised-button:disabled,
+.mat-mdc-unelevated-button:disabled,
+.mat-mdc-outlined-button:disabled {
+  opacity: 0.45;
+}
+
+.mat-grid-list {
+  overflow: hidden;
+}
+
+.mat-grid-tile,
+.mat-grid-tile-content {
+  background: transparent;
+}
+
 button,
 input,
 textarea,
@@ -332,7 +420,11 @@ mat-sidenav-content {
 
 .hero-orbit {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   min-height: 420px;
+  padding: 24px;
   border-radius: calc(var(--radius-xl) - 10px);
   background:
     radial-gradient(circle at center, rgba(15, 124, 115, 0.28), transparent 26%),
@@ -351,9 +443,9 @@ mat-sidenav-content {
 }
 
 .orbit-card {
-  position: absolute;
-  width: calc(100% - 48px);
-  max-width: 220px;
+  position: relative;
+  z-index: 1;
+  width: min(100%, 240px);
   padding: 18px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
@@ -379,14 +471,11 @@ mat-sidenav-content {
 }
 
 .orbit-card-a {
-  top: 34px;
-  right: 24px;
+  align-self: flex-end;
 }
 
 .orbit-card-b {
-  bottom: 28px;
-  right: 24px;
-  left: auto;
+  align-self: flex-start;
   animation-delay: -4s;
 }
 
@@ -445,7 +534,19 @@ mat-sidenav-content {
   width: fit-content;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(255, 252, 247, 0.74);
+  border: 1px solid rgba(18, 24, 22, 0.12);
+  background: rgba(18, 24, 22, 0.88);
+  color: #f9f6f1;
+  box-shadow: 0 10px 24px rgba(18, 24, 22, 0.14);
+}
+
+.project-card.systems .project-tag,
+.project-card.fractal.alt .project-tag,
+.project-card.external .project-tag,
+.project-card.bio .project-tag {
+  border-color: rgba(249, 246, 241, 0.18);
+  background: rgba(249, 246, 241, 0.92);
+  color: #18201d;
 }
 
 .tall {
@@ -536,6 +637,7 @@ mat-sidenav-content {
 
   .hero-orbit {
     min-height: 280px;
+    padding: 18px;
   }
 
   .project-grid {
@@ -561,18 +663,16 @@ mat-sidenav-content {
   }
 
   .orbit-card {
-    width: calc(100% - 28px);
+    width: 100%;
+    max-width: none;
   }
 
   .orbit-card-a {
-    top: 16px;
-    right: 14px;
+    align-self: stretch;
   }
 
   .orbit-card-b {
-    bottom: 16px;
-    right: 14px;
-    left: auto;
+    align-self: stretch;
   }
 }
 
