@@ -1,17 +1,63 @@
-<div class="home-container">
-  <h1>Welcome to Deiaco's Developments</h1>
-  <p>
-    This website showcases various projects, experiments, and personal interests. Explore interactive visualizations, software projects, and more!
-  </p>
+<section class="home-shell">
+  <div class="hero-panel">
+    <div class="hero-copy">
+      <p class="eyebrow">Generative gallery</p>
+      <h1>Code-driven visuals, experiments, and personal work.</h1>
+      <p class="hero-text">
+        This is a studio for fractals, automata, photography, and side projects that sit somewhere between software, art, and curiosity.
+      </p>
+    </div>
 
-  <h2>Updates</h2>
-  <ul class="updates-list">
-    <li><strong>Mandelbrot Explorer:</strong> Dive into the fascinating world of fractals with an interactive Mandelbrot set visualization.</li>
-    <li><strong>Buddhabrot Renderer:</strong> Watch the escape paths of the Mandelbrot fractal build up the enigmatic Buddhabrot.</li>
-    
-    <li><strong>Game of Life:</strong> Experiment with Conway's Game of Life and explore cellular automata.</li>
-    <li><strong>Photography:</strong> Gallery of photography I've done.</li>
-    <li><strong>Shadows Of Infinity:</strong> Explore some NFT's I've created to own a piece of the Buddhabrot!</li>
-    <li><strong>Bio:</strong> Get to know more about me and my professional journey.</li>
-  </ul>
-</div>
+    <div class="hero-orbit" aria-hidden="true">
+      <div class="orbit-grid"></div>
+      <div class="orbit-card orbit-card-a">
+        <span class="orbit-label">Featured</span>
+        <strong>Buddhabrot</strong>
+        <p>Escape trajectories rendered as atmosphere and density.</p>
+      </div>
+      <div class="orbit-card orbit-card-b">
+        <span class="orbit-label">Live system</span>
+        <strong>Game of Life</strong>
+        <p>Rules, emergence, and pattern behavior in motion.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="project-grid">
+    <a class="project-card tall fractal" href="/mandelbrot">
+      <span class="project-tag">Fractal</span>
+      <h2>Mandelbrot Explorer</h2>
+      <p>Interactive navigation through the classic set, built to feel precise instead of decorative.</p>
+    </a>
+
+    <a class="project-card fractal alt" href="/buddhabrot">
+      <span class="project-tag">Fractal</span>
+      <h2>Buddhabrot Renderer</h2>
+      <p>Orbit paths accumulate into a softer, stranger view of the same mathematics.</p>
+    </a>
+
+    <a class="project-card systems" href="/gameoflife">
+      <span class="project-tag">Systems</span>
+      <h2>Game of Life</h2>
+      <p>Cellular automata as a playground for emergence, rhythm, and control.</p>
+    </a>
+
+    <a class="project-card photo" href="/photography">
+      <span class="project-tag">Image</span>
+      <h2>Photography</h2>
+      <p>Observation, light, and texture as a counterweight to the computational work.</p>
+    </a>
+
+    <a class="project-card external" href="https://shadowsofinfinity.io" target="_blank" rel="noopener noreferrer">
+      <span class="project-tag">Collection</span>
+      <h2>Shadows of Infinity</h2>
+      <p>NFT work extending the Buddhabrot into collectible pieces.</p>
+    </a>
+
+    <a class="project-card bio" href="/bio">
+      <span class="project-tag">Profile</span>
+      <h2>Bio</h2>
+      <p>Background, process, and the thread connecting engineering with image-making.</p>
+    </a>
+  </section>
+</section>

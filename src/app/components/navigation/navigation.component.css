@@ -1,26 +1,4 @@
-.sidenav-container {
-  height: 100%;
-}
-
-.sidenav {
-  width: 200px;
-  padding-top: 1.5rem;
-}
-
-.sidenav .mat-toolbar {
-  background: inherit;
-}
-
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.multiline-nav-item {
-  height: auto !important;              /* Allow the item to grow vertically */
-  white-space: normal;                  /* Allow line breaks */
-  line-height: 1.4;                     /* Optional: improve spacing */
-  align-items: flex-start !important;   /* Align content to the top */
+:host {
+  display: block;
 }
 
