@@ -1,1 +1,1 @@
-ng deploy --cname=deiacosdevelopments.com --base-href=/
+npx ng deploy --cname=deiacosdevelopments.com --base-href=/
