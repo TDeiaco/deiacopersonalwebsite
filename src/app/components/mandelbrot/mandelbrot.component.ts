@@ -267,13 +267,25 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
                 var ctx2 = c.getContext('2d')!;
                 ctx2.putImageData(event.data, 0, 0);
 
-                var link = document.createElement('a');
-                link.download = 'mandelbrotHighRes.png';
-                link.href = c.toDataURL();
-                link.click();
+                c.toBlob((blob) => {
+                    if (!blob) {
+                        this.isExporting = false;
+                        this.exportProgress = "";
+                        return;
+                    }
 
-                this.isExporting = false;
-                this.exportProgress = "";
+                    const objectUrl = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'mandelbrotHighRes.png';
+                    link.href = objectUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    URL.revokeObjectURL(objectUrl);
+
+                    this.isExporting = false;
+                    this.exportProgress = "";
+                }, 'image/png');
 
             } else if (typeof event.data === 'number') {
                 this.exportProgress = Math.round((event.data / exportResolutionY) * 100) + "%";
