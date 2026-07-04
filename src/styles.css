@@ -318,10 +318,10 @@ mat-sidenav-content {
 }
 
 .hero-copy h1 {
-  margin: 0 0 44px;
+  margin: 0 0 3.875rem;
   max-width: none;
   font-size: clamp(2.6rem, 4.8vw, 4.8rem);
-  line-height: 0.9;
+  line-height: 1;
 }
 
 .hero-text {
@@ -573,5 +573,875 @@ mat-sidenav-content {
     bottom: 16px;
     right: 14px;
     left: auto;
+  }
+}
+
+.mandelbrot-page {
+  display: grid;
+  gap: 24px;
+}
+
+.mandelbrot-hero,
+.mandelbrot-page .canvas-card,
+.mandelbrot-page .control-card {
+  border: 1px solid rgba(22, 24, 23, 0.08);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(247, 241, 234, 0.84));
+  box-shadow: var(--shadow);
+}
+
+.mandelbrot-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
+  gap: 20px;
+  padding: 28px;
+}
+
+.mandelbrot-kicker,
+.mandelbrot-page .status-label,
+.mandelbrot-page .field-label {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mandelbrot-kicker,
+.mandelbrot-page .status-label {
+  color: var(--accent-strong);
+}
+
+.mandelbrot-page h1,
+.mandelbrot-page h2,
+.mandelbrot-page h3 {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+.mandelbrot-page h1 {
+  margin: 10px 0 0.75rem;
+  font-size: clamp(2.5rem, 4.5vw, 4.25rem);
+  line-height: 1;
+}
+
+.mandelbrot-intro,
+.mandelbrot-status-card p,
+.mandelbrot-page .info-card li,
+.mandelbrot-page .info-card a {
+  color: var(--muted);
+}
+
+.mandelbrot-intro {
+  max-width: 54ch;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.mandelbrot-status-card {
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(28, 34, 32, 0.95);
+  color: #f9f6f1;
+}
+
+.mandelbrot-status-card strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 1.35rem;
+}
+
+.mandelbrot-status-card p {
+  margin: 14px 0 0;
+  color: rgba(249, 246, 241, 0.76);
+}
+
+.mandelbrot-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.8fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.mandelbrot-page .canvas-card,
+.mandelbrot-page .control-card {
+  padding: 22px;
+}
+
+.mandelbrot-page .canvas-card-header,
+.mandelbrot-page .control-card-header,
+.mandelbrot-page .button-row,
+.mandelbrot-page .toggle-row {
+  display: flex;
+}
+
+.mandelbrot-page .canvas-card-header,
+.mandelbrot-page .control-card-header {
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mandelbrot-page .canvas-card-header h2,
+.mandelbrot-page .control-card-header h3 {
+  margin-top: 8px;
+}
+
+.mandelbrot-page .canvas-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mandelbrot-page .canvas-badges span,
+.mandelbrot-page .progress-note {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(15, 124, 115, 0.1);
+  color: var(--accent-strong);
+  font-size: 0.88rem;
+}
+
+.mandelbrot-page .canvas-frame {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(28, 34, 32, 0.95);
+}
+
+.mandelbrot-page canvas {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+}
+
+.mandelbrot-page .controls-column {
+  display: grid;
+  gap: 16px;
+}
+
+.mandelbrot-page input,
+.mandelbrot-page button {
+  font: inherit;
+}
+
+.mandelbrot-page input:not([type='checkbox']) {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 6px;
+  padding: 0 14px;
+  border: 1px solid rgba(22, 24, 23, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 252, 247, 0.75);
+  color: var(--text);
+}
+
+.mandelbrot-page .button-row {
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.mandelbrot-page .primary-action,
+.mandelbrot-page .secondary-action {
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.mandelbrot-page .primary-action {
+  background: var(--surface-dark);
+  color: #f9f6f1;
+}
+
+.mandelbrot-page .secondary-action {
+  background: rgba(15, 124, 115, 0.12);
+  color: var(--accent-strong);
+}
+
+.mandelbrot-page .toggle-row {
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0 12px;
+}
+
+.mandelbrot-page .color-grid,
+.mandelbrot-page .coord-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.mandelbrot-page .coord-grid label {
+  display: block;
+}
+
+.mandelbrot-page .info-card ul {
+  margin: 14px 0 0;
+  padding-left: 18px;
+}
+
+.mandelbrot-page .info-card li + li {
+  margin-top: 8px;
+}
+
+.mandelbrot-page .info-card a {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+@media (max-width: 1100px) {
+  .mandelbrot-hero,
+  .mandelbrot-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .mandelbrot-hero,
+  .mandelbrot-page .canvas-card,
+  .mandelbrot-page .control-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .mandelbrot-page .button-row {
+    flex-direction: column;
+  }
+}
+
+.buddhabrot-page {
+  display: grid;
+  gap: 24px;
+}
+
+.buddhabrot-hero,
+.buddhabrot-page .buddha-canvas-card,
+.buddhabrot-page .buddha-control-card {
+  border: 1px solid rgba(22, 24, 23, 0.08);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(247, 241, 234, 0.84));
+  box-shadow: var(--shadow);
+}
+
+.buddhabrot-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
+  gap: 20px;
+  padding: 28px;
+}
+
+.buddhabrot-kicker {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.buddhabrot-page h1,
+.buddhabrot-page h2,
+.buddhabrot-page h3 {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+.buddhabrot-page h1 {
+  margin: 10px 0 0.75rem;
+  font-size: clamp(2.5rem, 4.5vw, 4.25rem);
+  line-height: 1;
+}
+
+.buddhabrot-intro,
+.buddhabrot-status-card p,
+.buddhabrot-page li,
+.buddhabrot-page .buddha-stat-list span {
+  color: var(--muted);
+}
+
+.buddhabrot-intro {
+  max-width: 56ch;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.buddhabrot-status-card {
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(28, 34, 32, 0.95);
+  color: #f9f6f1;
+}
+
+.buddhabrot-status-card strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 1.35rem;
+}
+
+.buddhabrot-status-card p {
+  margin: 14px 0 0;
+  color: rgba(249, 246, 241, 0.76);
+}
+
+.buddhabrot-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.buddhabrot-page .buddha-canvas-card,
+.buddhabrot-page .buddha-control-card {
+  padding: 22px;
+}
+
+.buddhabrot-page .buddha-canvas-header,
+.buddhabrot-page .buddha-control-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.buddhabrot-page .buddha-canvas-header h2,
+.buddhabrot-page .buddha-control-header h3 {
+  margin-top: 8px;
+}
+
+.buddhabrot-page .buddha-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.buddhabrot-page .buddha-badges span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(15, 124, 115, 0.1);
+  color: var(--accent-strong);
+  font-size: 0.88rem;
+}
+
+.buddhabrot-page .buddha-canvas-frame {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(28, 34, 32, 0.95);
+}
+
+.buddhabrot-page .buddha-canvas {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  image-rendering: pixelated;
+}
+
+.buddhabrot-page .buddha-controls-column {
+  display: grid;
+  gap: 16px;
+}
+
+.buddhabrot-page .buddha-button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.buddhabrot-page .buddha-field-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.buddhabrot-page .buddha-stat-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.buddhabrot-page .buddha-stat-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.buddhabrot-page .buddha-stat-list strong {
+  color: var(--text);
+}
+
+.buddhabrot-page .buddha-info-card ul {
+  margin: 14px 0 0;
+  padding-left: 18px;
+}
+
+.buddhabrot-page .buddha-info-card li + li {
+  margin-top: 8px;
+}
+
+@media (max-width: 1100px) {
+  .buddhabrot-hero,
+  .buddhabrot-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .buddhabrot-hero,
+  .buddhabrot-page .buddha-canvas-card,
+  .buddhabrot-page .buddha-control-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .buddhabrot-page .buddha-button-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.life-page {
+  display: grid;
+  gap: 24px;
+}
+
+.life-hero,
+.life-page .life-grid-card,
+.life-page .life-control-card {
+  border: 1px solid rgba(22, 24, 23, 0.08);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(247, 241, 234, 0.84));
+  box-shadow: var(--shadow);
+}
+
+.life-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
+  gap: 20px;
+  padding: 28px;
+}
+
+.life-kicker {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.life-page h1,
+.life-page h2,
+.life-page h3 {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+.life-page h1 {
+  margin: 10px 0 0.75rem;
+  font-size: clamp(2.5rem, 4.5vw, 4.25rem);
+  line-height: 1;
+}
+
+.life-intro,
+.life-status-card p,
+.life-page li {
+  color: var(--muted);
+}
+
+.life-intro {
+  max-width: 56ch;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.life-status-card {
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(28, 34, 32, 0.95);
+  color: #f9f6f1;
+}
+
+.life-status-card strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 1.35rem;
+}
+
+.life-status-card p {
+  margin: 14px 0 0;
+  color: rgba(249, 246, 241, 0.76);
+}
+
+.life-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.life-page .life-grid-card,
+.life-page .life-control-card {
+  padding: 22px;
+}
+
+.life-page .life-grid-header,
+.life-page .life-control-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.life-page .life-grid-header h2,
+.life-page .life-control-header h3 {
+  margin-top: 8px;
+}
+
+.life-page .life-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.life-page .life-badges span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(15, 124, 115, 0.1);
+  color: var(--accent-strong);
+  font-size: 0.88rem;
+}
+
+.life-page .life-grid-frame {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(28, 34, 32, 0.95);
+}
+
+.life-page .life-controls-column {
+  display: grid;
+  gap: 16px;
+}
+
+.life-page .life-button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.life-page .life-primary,
+.life-page .life-secondary {
+  min-height: 46px;
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+.life-page .life-primary {
+  background: var(--surface-dark) !important;
+  color: #f9f6f1 !important;
+}
+
+.life-page .life-secondary {
+  background: rgba(15, 124, 115, 0.12) !important;
+  color: var(--accent-strong) !important;
+}
+
+.life-page .life-info-card ul {
+  margin: 14px 0 0;
+  padding-left: 18px;
+}
+
+.life-page .life-info-card li + li {
+  margin-top: 8px;
+}
+
+.life-page mat-grid-list {
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(239, 232, 222, 0.82);
+}
+
+.life-page mat-grid-tile {
+  border: 1px solid rgba(28, 34, 32, 0.08);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.life-page .alive {
+  background: #1f2523;
+}
+
+.life-page .dead {
+  background: rgba(250, 246, 240, 0.86);
+}
+
+.life-page mat-grid-tile.dead:hover {
+  background: rgba(232, 224, 214, 0.96);
+}
+
+.life-page .life-grid-card.drawing mat-grid-tile {
+  cursor: crosshair;
+}
+
+@media (max-width: 1100px) {
+  .life-hero,
+  .life-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .life-hero,
+  .life-page .life-grid-card,
+  .life-page .life-control-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .life-page .life-button-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bio-page {
+  display: grid;
+}
+
+.bio-hero {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+  gap: 28px;
+  align-items: center;
+  padding: 28px;
+  border: 1px solid rgba(22, 24, 23, 0.08);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at top left, rgba(15, 124, 115, 0.12), transparent 30%),
+    linear-gradient(180deg, rgba(255, 252, 247, 0.95), rgba(246, 239, 230, 0.88));
+  box-shadow: var(--shadow);
+}
+
+.bio-portrait-wrap {
+  padding: 18px;
+  border-radius: 28px;
+  background: rgba(255, 252, 247, 0.72);
+  border: 1px solid rgba(22, 24, 23, 0.08);
+}
+
+.bio-portrait {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 22px;
+}
+
+.bio-kicker {
+  margin: 0 0 10px;
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.bio-page h1 {
+  margin: 0 0 0.875rem;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: clamp(2.5rem, 4.6vw, 4.4rem);
+  line-height: 1;
+}
+
+.bio-role {
+  margin: 0;
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+.bio-intro {
+  max-width: 62ch;
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.bio-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.bio-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.bio-action.primary {
+  background: var(--surface-dark);
+  color: #f9f6f1;
+}
+
+.bio-action.secondary {
+  background: rgba(15, 124, 115, 0.12);
+  color: var(--accent-strong);
+}
+
+.photography-page {
+  display: grid;
+  gap: 24px;
+}
+
+.photography-hero,
+.photography-page .photo-panel,
+.photography-page .photography-gallery-card {
+  border: 1px solid rgba(22, 24, 23, 0.08);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(247, 241, 234, 0.84));
+  box-shadow: var(--shadow);
+}
+
+.photography-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.75fr);
+  gap: 20px;
+  padding: 28px;
+}
+
+.photography-kicker {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.photography-page h1 {
+  margin: 10px 0 0.75rem;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: clamp(2.5rem, 4.6vw, 4.4rem);
+  line-height: 1;
+}
+
+.photography-intro,
+.photography-hero-card p,
+.album-description,
+.photo-loading {
+  color: var(--muted);
+}
+
+.photography-intro {
+  max-width: 58ch;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.photography-hero-card {
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(28, 34, 32, 0.95);
+  color: #f9f6f1;
+}
+
+.photography-hero-card strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 1.35rem;
+}
+
+.photography-hero-card p {
+  margin: 14px 0 0;
+  color: rgba(249, 246, 241, 0.76);
+}
+
+.photography-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1.58fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.photography-page .photography-sidebar {
+  display: grid;
+  gap: 16px;
+}
+
+.photography-page .photo-panel,
+.photography-page .photography-gallery-card {
+  padding: 22px;
+}
+
+.photography-page .photo-select {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 10px;
+  padding: 0 14px;
+  border: 1px solid rgba(22, 24, 23, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 252, 247, 0.75);
+  color: var(--text);
+  font: inherit;
+}
+
+.photography-page .album-description {
+  margin: 10px 0 0;
+  line-height: 1.7;
+}
+
+.photography-page .photo-loading {
+  margin-bottom: 14px;
+}
+
+.photography-page mat-grid-list {
+  width: 100%;
+}
+
+.photography-page mat-grid-tile {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+@media (max-width: 1100px) {
+  .bio-hero,
+  .photography-hero,
+  .photography-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .bio-hero,
+  .photography-hero,
+  .photography-page .photo-panel,
+  .photography-page .photography-gallery-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .bio-actions {
+    flex-direction: column;
   }
 }

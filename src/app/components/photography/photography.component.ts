@@ -28,14 +28,37 @@ export class PhotographyComponent implements OnInit {
   // New properties for album metadata
   currentAlbumName = '';
   currentAlbumDescription = '';
+  galleryCols = 3;
+  galleryRowHeight = '220px';
 
   constructor(private flickrService: FlickrService) {}
 
   ngOnInit(): void {
+    this.updateGalleryLayout();
+
     // load the first album by default if available
     if (this.albums_to_load && this.albums_to_load.length > 0) {
       this.getPhotoUrlsInAlbum(this.albums_to_load[0]);
     }
+  }
+
+  private updateGalleryLayout(): void {
+    const viewportWidth = window.innerWidth;
+
+    if (viewportWidth < 700) {
+      this.galleryCols = 1;
+      this.galleryRowHeight = '260px';
+      return;
+    }
+
+    if (viewportWidth < 1100) {
+      this.galleryCols = 2;
+      this.galleryRowHeight = '220px';
+      return;
+    }
+
+    this.galleryCols = 3;
+    this.galleryRowHeight = '220px';
   }
 
   getPhotoUrlsInAlbum(albumName: string): void {
@@ -132,5 +155,10 @@ export class PhotographyComponent implements OnInit {
     } else if (event.key === 'ArrowRight') {
       this.nextImage();
     }
+  }
+
+  @HostListener('window:resize')
+  onWindowResize() {
+    this.updateGalleryLayout();
   }
 }

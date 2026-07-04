@@ -73,10 +73,22 @@ export class MandelbrotComponent implements AfterViewInit, OnDestroy {
         });
     }
 
+    private getCanvasPixelCoords(e: MouseEvent) {
+        const canvas = this.canvas.nativeElement;
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
+        return {
+            x: (e.clientX - rect.left) * scaleX,
+            y: (e.clientY - rect.top) * scaleY,
+        };
+    }
+
     updateCurrentMouseCoords(e: MouseEvent) {
-        const rect = this.canvas.nativeElement.getBoundingClientRect();
-        this.currentX = e.clientX - rect.left;
-        this.currentY = e.clientY - rect.top;
+        const pixelCoords = this.getCanvasPixelCoords(e);
+        this.currentX = pixelCoords.x;
+        this.currentY = pixelCoords.y;
     }
 
     zoom(percent: number) {

@@ -1,13 +1,13 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { DecimalPipe, NgIf } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'app-buddhabrot',
   templateUrl: './buddhabrot.component.html',
   styleUrls: ['./buddhabrot.component.css'],
-  imports: [FormsModule, NgIf]
+  imports: [FormsModule, NgIf, DecimalPipe]
 })
 export class BuddhabrotComponent implements AfterViewInit, OnDestroy {
   @ViewChild('buddhaCanvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;

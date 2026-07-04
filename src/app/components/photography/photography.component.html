@@ -1,32 +1,52 @@
-<div class="photography-gallery">
-  <h1>Photography</h1>
+<section class="photography-page">
+  <header class="photography-hero">
+    <div>
+      <p class="photography-kicker">Gallery</p>
+      <h1>Photography.</h1>
+      <p class="photography-intro">
+        A quieter side of the work: observation, landscape, travel, and small moments organized into album-based sets.
+      </p>
+    </div>
 
-  <!-- Album header + description -->
-  <div *ngIf="currentAlbumName" class="album-header">
-    <!-- combobox placed where the Name label was; label removed -->
-    <select id="album-select" #albumSelect
-            (change)="getPhotoUrlsInAlbum(albumSelect.value ?? '')"
-            class="large-combobox"
-            style="width:100%; font-size:1.25rem; padding:10px 12px; box-sizing:border-box;">
-      <option value="" disabled>Choose an album</option>
-      <option *ngFor="let album of albums_to_load" [value]="album" [selected]="album === currentAlbumName">
-        {{ album }}
-      </option>
-    </select>
+    <div class="photography-hero-card">
+      <span class="status-label">Current album</span>
+      <strong>{{ currentAlbumName || 'Loading selection' }}</strong>
+      <p *ngIf="currentAlbumDescription">{{ currentAlbumDescription }}</p>
+    </div>
+  </header>
 
-    <p class="album-description" *ngIf="currentAlbumDescription">{{ currentAlbumDescription }}</p>
-  </div>
+  <section class="photography-layout">
+    <aside class="photography-sidebar">
+      <div class="photo-panel">
+        <span class="status-label">Albums</span>
+        <label class="field-label" for="album-select">Choose a collection</label>
+        <select id="album-select" #albumSelect
+                (change)="getPhotoUrlsInAlbum(albumSelect.value)"
+                class="photo-select">
+          <option value="" disabled>Choose an album</option>
+          <option *ngFor="let album of albums_to_load" [value]="album" [selected]="album === currentAlbumName">
+            {{ album }}
+          </option>
+        </select>
+      </div>
 
-  <div *ngIf="loading">Loading photos...</div>
- 
-  <!-- removed separate album-select block (combobox moved into header) -->
+      <div class="photo-panel" *ngIf="currentAlbumDescription">
+        <span class="status-label">Notes</span>
+        <p class="album-description">{{ currentAlbumDescription }}</p>
+      </div>
+    </aside>
 
-  <mat-grid-list cols="3" rowHeight="200px" gutterSize="8px" *ngIf="image_urls && image_urls.length">
-    <mat-grid-tile *ngFor="let url of image_urls">
-      <img [src]="url" alt="photo" class="photo-img" (click)="openImage(url)" />
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
+    <div class="photography-gallery-card">
+      <div class="photo-loading" *ngIf="loading">Loading photos...</div>
+
+      <mat-grid-list [cols]="galleryCols" [rowHeight]="galleryRowHeight" gutterSize="12px" *ngIf="image_urls && image_urls.length">
+        <mat-grid-tile *ngFor="let url of image_urls">
+          <img [src]="url" alt="photo" class="photo-img" (click)="openImage(url)" />
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </section>
+</section>
 
 <!-- image modal -->
 <div class="image-modal" *ngIf="selectedImage" (click)="closeImage()">

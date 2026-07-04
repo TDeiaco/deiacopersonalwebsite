@@ -1,46 +1,106 @@
-<div class="buddha-container">
-  <div class="left">
-    <canvas #buddhaCanvas [width]="xRes" [height]="yRes" class="buddha-canvas"></canvas>
-  </div>
-
-  <div class="right">
-    <div class="controls">
-      <button (click)="start()" [disabled]="isRunning">Start</button>
-      <button (click)="stop()" [disabled]="!isRunning">Stop</button>
-      <button (click)="singleBatch()">Single Batch</button>
-      <button (click)="resetAccumulator()">Clear</button>
-      <button (click)="resetView()">Reset View</button>
+<section class="buddhabrot-page">
+  <header class="buddhabrot-hero">
+    <div>
+      <p class="buddhabrot-kicker">Fractal renderer</p>
+      <h1>Buddhabrot studio.</h1>
+      <p class="buddhabrot-intro">
+        Build the image progressively from sampled escape paths, tune the batch rhythm, and watch the structure emerge over time.
+      </p>
     </div>
 
-    <div class="params">
-      <label>Samples Per Batch:
-        <input type="number" min="1" [(ngModel)]="samplesPerBatch" />
-      </label>
-      <label>Iteration Count:
-        <input type="number" min="1" [(ngModel)]="iterationCount" />
-      </label>
-      <label>Hit Weight:
-        <input type="number" min="1" [(ngModel)]="hitWeight" />
-      </label>
-      <label>Batch Interval (ms):
-        <input type="number" min="10" [(ngModel)]="batchIntervalMs" />
-      </label>
+    <div class="buddhabrot-status-card">
+      <span class="status-label">Current state</span>
+      <strong>{{ isRunning ? 'Accumulating' : 'Paused' }}</strong>
+      <p>{{ totalSamplesProcessed | number }} samples processed across the active render.</p>
+    </div>
+  </header>
+
+  <section class="buddhabrot-workspace">
+    <div class="buddha-canvas-card">
+      <div class="buddha-canvas-header">
+        <div>
+          <span class="status-label">Live canvas</span>
+          <h2>Buddhabrot viewport</h2>
+        </div>
+        <div class="buddha-badges">
+          <span>{{ xRes }} x {{ yRes }}</span>
+          <span>{{ isRunning ? 'Running' : 'Ready' }}</span>
+        </div>
+      </div>
+
+      <div class="buddha-canvas-frame">
+        <canvas #buddhaCanvas [width]="xRes" [height]="yRes" class="buddha-canvas"></canvas>
+      </div>
     </div>
 
-    <div class="status">
-      <div>Running: {{ isRunning }}</div>
-      <div>Total samples: {{ totalSamplesProcessed }}</div>
-      <div>Accumulator max: {{ maxAcc[0] }} , {{ maxAcc[1] }} , {{ maxAcc[2] }}</div>
-    </div>
+    <aside class="buddha-controls-column">
+      <section class="buddha-control-card">
+        <div class="buddha-control-header">
+          <span class="status-label">Controls</span>
+          <h3>Batch actions</h3>
+        </div>
 
-    <div class="instructions">
-      <h4>Notes</h4>
-      <ul>
-        <li>Start will repeatedly request random samples; the image will accumulate and become more defined.</li>
-        <li>Single Batch runs one batch and updates the display.</li>
-        <li>Reset clears accumulated hits.</li>
-        <li>Changing view resets accumulator (use Reset View before restarting).</li>
-      </ul>
-    </div>
-  </div>
-</div>
+        <div class="buddha-button-grid">
+          <button type="button" class="primary-action" (click)="start()" [disabled]="isRunning">Start</button>
+          <button type="button" class="secondary-action" (click)="stop()" [disabled]="!isRunning">Stop</button>
+          <button type="button" class="secondary-action" (click)="singleBatch()">Single batch</button>
+          <button type="button" class="secondary-action" (click)="resetAccumulator()">Clear</button>
+          <button type="button" class="secondary-action" (click)="resetView()">Reset view</button>
+        </div>
+      </section>
+
+      <section class="buddha-control-card">
+        <div class="buddha-control-header">
+          <span class="status-label">Parameters</span>
+          <h3>Render tuning</h3>
+        </div>
+
+        <div class="buddha-field-grid">
+          <label>
+            <span class="field-label">Samples per batch</span>
+            <input type="number" min="1" [(ngModel)]="samplesPerBatch" />
+          </label>
+          <label>
+            <span class="field-label">Iteration count</span>
+            <input type="number" min="1" [(ngModel)]="iterationCount" />
+          </label>
+          <label>
+            <span class="field-label">Hit weight</span>
+            <input type="number" min="1" [(ngModel)]="hitWeight" />
+          </label>
+          <label>
+            <span class="field-label">Batch interval (ms)</span>
+            <input type="number" min="10" [(ngModel)]="batchIntervalMs" />
+          </label>
+        </div>
+      </section>
+
+      <section class="buddha-control-card buddha-stats-card">
+        <div class="buddha-control-header">
+          <span class="status-label">Stats</span>
+          <h3>Accumulator</h3>
+        </div>
+
+        <div class="buddha-stat-list">
+          <div><span>Running</span><strong>{{ isRunning ? 'Yes' : 'No' }}</strong></div>
+          <div><span>Total samples</span><strong>{{ totalSamplesProcessed | number }}</strong></div>
+          <div><span>Max channels</span><strong>{{ maxAcc[0] }} / {{ maxAcc[1] }} / {{ maxAcc[2] }}</strong></div>
+        </div>
+      </section>
+
+      <section class="buddha-control-card buddha-info-card">
+        <div class="buddha-control-header">
+          <span class="status-label">Guide</span>
+          <h3>How it behaves</h3>
+        </div>
+
+        <ul>
+          <li>Start repeatedly requests random samples so the image gradually resolves.</li>
+          <li>Single batch runs one accumulation cycle without entering the loop.</li>
+          <li>Clear resets the accumulator without changing the current view window.</li>
+          <li>Reset view restores the default frame and clears the current accumulation.</li>
+        </ul>
+      </section>
+    </aside>
+  </section>
+</section>

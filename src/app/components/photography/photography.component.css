@@ -1,27 +1,5 @@
-/* ...existing code... */
-
-.album-header {
-  margin-bottom: 16px;
-}
-
-.album-title {
-  font-size: 1.5rem;
-  margin: 0 0 8px 0;
-}
-
-.album-description {
-  margin-top: 12px; /* breathing room above description */
-  margin-bottom: 12px; /* breathing room below description */
-  line-height: 1.6;
-  color: rgba(0, 0, 0, 0.75);
-}
-
-/* make the combobox match the larger header spacing */
-.large-combobox {
-  margin-bottom: 12px;
-  padding: 10px 12px;
-  font-size: 1.1rem;
-  box-sizing: border-box;
+:host {
+  display: block;
 }
 
 /* modal overlay */
@@ -113,5 +91,3 @@
   cursor: zoom-in;
   display: block;
 }
-
-/* ...existing code... */

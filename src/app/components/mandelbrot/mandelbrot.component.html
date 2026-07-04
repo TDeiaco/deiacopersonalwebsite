@@ -1,80 +1,131 @@
-<div class="container" style="padding-left:0; padding-right:0;">
-  <div class="row">
-    <div class="col-12" style="display:flex; align-items:flex-start; justify-content:flex-start; gap:16px;">
-
-      <!-- Fractal canvas pinned to the left, fixed width -->
-      <div >
-        <canvas [width]="xRes" [height]="yRes" #fractalCanvas style="border:1px solid #ccc; margin-left: -4rem;"></canvas>
-      </div>
-
-      <!-- Right-side controls take remaining space -->
-      <div style="flex:1 1 auto; display:flex; flex-direction:column; gap:12px;">
-        <div style="display:flex; flex-direction:column;">
-          <input type="button" (click)="renderFractal()" value="Render" style="margin-bottom:5px;" />
-          <input type="button" value="Reset" (click)="resetHomeAndRender()" style="margin-bottom:5px;" />
-          <label style="margin-top:10px; margin-bottom:5px;">Iterations</label>
-          <input id="iterationCountInput" [(ngModel)]="iterationCount" min="2" style="margin-bottom:5px;" />
-
-          <label style="margin-top:10px; margin-bottom:5px;">
-            Enable Custom Coloring
-            <input type="checkbox" style="margin:4px;" [(ngModel)]="useColorFormat" />
-          </label>
-
-          <h6 *ngIf="useColorFormat" style="margin:4px;">Red Channel:</h6>
-          <input *ngIf="useColorFormat" style="margin:4px;" type="text" id="colorFormatR" [(ngModel)]="colorFormatR" class="form-control" />
-          <h6 *ngIf="useColorFormat" style="margin:4px;">Green Channel:</h6>
-          <input *ngIf="useColorFormat" style="margin:4px;" type="text" id="colorFormatG" [(ngModel)]="colorFormatG" class="form-control" />
-          <h6 *ngIf="useColorFormat" style="margin:4px;">Blue Channel:</h6>
-          <input *ngIf="useColorFormat" style="margin:4px;" type="text" id="colorFormatB" [(ngModel)]="colorFormatB" class="form-control" />
-
-          <div id="renderingSpinner" [style.visibility]="isRendering ? 'visible' : 'hidden'">
-            <span class="spinner-grow spinner-grow-sm"></span>
-            Rendering...
-          </div>
-          <input type="button" value="Export Render" (click)="exportRender($event)" />
-          <label>Resolution:
-            <input type="number" min="6" [(ngModel)]="exportResolution" id="horzRes" class="form-control" />
-          </label>
-          <div id="exportSpinner" [style.visibility]="isExporting ? 'visible' : 'hidden'">
-            <span class="spinner-grow spinner-grow-sm"></span>
-            Exporting... {{exportProgress}}<br />
-          </div>
-        </div>
-
-        <div style="display:flex; flex-direction:column;">
-          <div style="margin:12px;">
-            <h3>Instructions:</h3>
-            <p style="text-align:left;">
-              After initial loading of Mandelbrot, click anywhere on the<br />
-              image to zoom in.<br />
-              - Alt+Click to Zoom out.<br />
-              - Ctrl+Click to move around.<br />
-              - Iteration Count controls detail<br />
-              - Export a high resolution copy with Export Render.<br />
-              - Over 9600 Horizontal Resolution, errors can occur.<br />
-              - Check Custom Coloring to setup custom coloring while rendering.<br />
-              - Use "default" for basic default color calculation for individual color components.<br />
-              - Use parameter "iters" : "sin(iters deg)*255" or "iters%255"<br />
-              <a href="https://mathjs.org/docs/expressions/syntax.html" target="_blank"> Click here for expression details.</a>
-            </p>
-          </div>
-        </div>
-
-        <div style="display:flex; flex-direction:column;">
-          <label> Real Coordinate:</label>
-          <input type="number" [(ngModel)]="windowCoords.real" class="form-control" />
-
-          <label> Img Coordinate:</label>
-          <input type="number" [(ngModel)]="windowCoords.img" class="form-control" />
-
-          <label> Real Window:</label>
-          <input type="number" [(ngModel)]="windowCoords.realRange" class="form-control" />
-
-          <label> Img Window:</label>
-          <input type="number" [(ngModel)]="windowCoords.imgRange" class="form-control" />
-        </div>
-      </div>
-
+<section class="mandelbrot-page">
+  <header class="mandelbrot-hero">
+    <div>
+      <p class="mandelbrot-kicker">Fractal explorer</p>
+      <h1>Mandelbrot studio.</h1>
+      <p class="mandelbrot-intro">
+        Explore the set, tune the image, and export high-resolution stills from the same visual workspace.
+      </p>
     </div>
-  </div>
-</div>
+
+    <div class="mandelbrot-status-card">
+      <span class="status-label">Render time</span>
+      <strong>{{ elapsedTime || 'Waiting for first render' }}</strong>
+      <p>Click the canvas to zoom, use Alt+Click to pull back, and Ctrl+Click to reposition.</p>
+    </div>
+  </header>
+
+  <section class="mandelbrot-workspace">
+    <div class="canvas-card">
+      <div class="canvas-card-header">
+        <div>
+          <span class="status-label">Live canvas</span>
+          <h2>Mandelbrot viewport</h2>
+        </div>
+        <div class="canvas-badges">
+          <span>{{ xRes }} x {{ yRes }}</span>
+          <span *ngIf="isRendering">Rendering</span>
+          <span *ngIf="!isRendering">Ready</span>
+        </div>
+      </div>
+
+      <div class="canvas-frame">
+        <canvas [width]="xRes" [height]="yRes" #fractalCanvas></canvas>
+      </div>
+    </div>
+
+    <aside class="controls-column">
+      <section class="control-card">
+        <div class="control-card-header">
+          <span class="status-label">Controls</span>
+          <h3>Render setup</h3>
+        </div>
+
+        <div class="button-row">
+          <button type="button" class="primary-action" (click)="renderFractal()">Render</button>
+          <button type="button" class="secondary-action" (click)="resetHomeAndRender()">Reset view</button>
+        </div>
+
+        <label class="field-label" for="iterationCountInput">Iterations</label>
+        <input id="iterationCountInput" [(ngModel)]="iterationCount" min="2" />
+
+        <label class="toggle-row">
+          <span>Enable custom coloring</span>
+          <input type="checkbox" [(ngModel)]="useColorFormat" />
+        </label>
+
+        <div *ngIf="useColorFormat" class="color-grid">
+          <label class="field-label" for="colorFormatR">Red channel</label>
+          <input type="text" id="colorFormatR" [(ngModel)]="colorFormatR" />
+
+          <label class="field-label" for="colorFormatG">Green channel</label>
+          <input type="text" id="colorFormatG" [(ngModel)]="colorFormatG" />
+
+          <label class="field-label" for="colorFormatB">Blue channel</label>
+          <input type="text" id="colorFormatB" [(ngModel)]="colorFormatB" />
+        </div>
+
+        <div class="progress-note" *ngIf="isRendering">Rendering current view...</div>
+      </section>
+
+      <section class="control-card">
+        <div class="control-card-header">
+          <span class="status-label">Export</span>
+          <h3>High-resolution output</h3>
+        </div>
+
+        <label class="field-label" for="horzRes">Resolution</label>
+        <input type="number" min="6" [(ngModel)]="exportResolution" id="horzRes" />
+
+        <button type="button" class="primary-action" (click)="exportRender($event)">Export render</button>
+
+        <div class="progress-note" *ngIf="isExporting">Exporting {{ exportProgress }}</div>
+      </section>
+
+      <section class="control-card coord-card">
+        <div class="control-card-header">
+          <span class="status-label">Coordinates</span>
+          <h3>Current window</h3>
+        </div>
+
+        <div class="coord-grid">
+          <label>
+            <span class="field-label">Real coordinate</span>
+            <input type="number" [(ngModel)]="windowCoords.real" />
+          </label>
+          <label>
+            <span class="field-label">Imaginary coordinate</span>
+            <input type="number" [(ngModel)]="windowCoords.img" />
+          </label>
+          <label>
+            <span class="field-label">Real window</span>
+            <input type="number" [(ngModel)]="windowCoords.realRange" />
+          </label>
+          <label>
+            <span class="field-label">Imaginary window</span>
+            <input type="number" [(ngModel)]="windowCoords.imgRange" />
+          </label>
+        </div>
+      </section>
+
+      <section class="control-card info-card">
+        <div class="control-card-header">
+          <span class="status-label">Guide</span>
+          <h3>How to explore</h3>
+        </div>
+
+        <ul>
+          <li>Click anywhere on the image to zoom in.</li>
+          <li>Alt+Click zooms out and Ctrl+Click re-centers without changing scale.</li>
+          <li>Iteration count controls detail and render time.</li>
+          <li>Export renders a square high-resolution image; above 9600px can fail.</li>
+          <li>Use custom coloring expressions with the parameter <strong>iters</strong>.</li>
+        </ul>
+
+        <a href="https://mathjs.org/docs/expressions/syntax.html" target="_blank" rel="noopener noreferrer">
+          Expression syntax reference
+        </a>
+      </section>
+    </aside>
+  </section>
+</section>
