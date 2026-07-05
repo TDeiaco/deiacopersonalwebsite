@@ -1146,7 +1146,7 @@ mat-sidenav-content {
 }
 
 .life-hero,
-.life-page .life-grid-card,
+.life-page .life-main-card,
 .life-page .life-control-card {
   border: 1px solid rgba(22, 24, 23, 0.08);
   border-radius: 28px;
@@ -1213,14 +1213,14 @@ mat-sidenav-content {
   color: rgba(249, 246, 241, 0.76);
 }
 
-.life-workspace {
+.life-page .life-main-card {
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
-  gap: 20px;
+  gap: 22px;
   align-items: start;
 }
 
-.life-page .life-grid-card,
+.life-page .life-main-card,
 .life-page .life-control-card {
   padding: 22px;
 }
@@ -1316,9 +1316,24 @@ mat-sidenav-content {
   background: rgba(28, 34, 32, 0.95);
 }
 
-.life-page .life-controls-column {
+.life-page .life-side-pane {
   display: grid;
-  gap: 16px;
+}
+
+.life-page .life-panel {
+  padding: 22px 0;
+}
+
+.life-page .life-panel:first-child {
+  padding-top: 0;
+}
+
+.life-page .life-panel:last-child {
+  padding-bottom: 0;
+}
+
+.life-page .life-panel + .life-panel {
+  border-top: 1px solid rgba(22, 24, 23, 0.08);
 }
 
 .life-page .life-button-grid {
@@ -1461,20 +1476,20 @@ mat-sidenav-content {
   background: rgba(232, 224, 214, 0.96);
 }
 
-.life-page .life-grid-card.drawing mat-grid-tile {
+.life-page .life-main-card.drawing mat-grid-tile {
   cursor: crosshair;
 }
 
 @media (max-width: 1100px) {
   .life-hero,
-  .life-workspace {
+  .life-page .life-main-card {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 720px) {
   .life-hero,
-  .life-page .life-grid-card,
+  .life-page .life-main-card,
   .life-page .life-control-card {
     padding: 18px;
     border-radius: 22px;

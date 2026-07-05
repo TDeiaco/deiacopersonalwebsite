@@ -15,8 +15,8 @@
     </div>
   </header>
 
-  <section class="life-workspace">
-    <div class="life-grid-card" [class.drawing]="isDrawing">
+  <div class="life-main-card" [class.drawing]="isDrawing">
+    <div class="life-board-pane">
       <div class="life-grid-header">
         <div class="life-grid-title">
           <span class="status-label">Live board</span>
@@ -65,8 +65,8 @@
       </div>
     </div>
 
-    <aside class="life-controls-column">
-      <section class="life-control-card">
+    <div class="life-side-pane">
+      <div class="life-panel">
         <div class="life-control-header">
           <span class="status-label">Controls</span>
           <h3>Simulation actions</h3>
@@ -79,9 +79,9 @@
           <button mat-raised-button class="life-secondary" (click)="randomizeGrid()" [disabled]="isRunning">Randomize</button>
           <button mat-raised-button class="life-secondary" (click)="nextGeneration()" [disabled]="isRunning">Next step</button>
         </div>
-      </section>
+      </div>
 
-      <section class="life-control-card">
+      <div class="life-panel">
         <div class="life-control-header">
           <span class="status-label">Patterns</span>
           <h3>Stamp a shape</h3>
@@ -132,22 +132,22 @@
             </select>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
 
-      <section class="life-control-card life-info-card">
-        <div class="life-control-header">
-          <span class="status-label">Guide</span>
-          <h3>How to use it</h3>
-        </div>
+  <section class="life-control-card life-info-card life-guide-row">
+    <div class="life-control-header">
+      <span class="status-label">Guide</span>
+      <h3>How to use it</h3>
+    </div>
 
-        <ul>
-          <li>Edit the field while paused by clicking or dragging across cells.</li>
-          <li>Start runs the simulation continuously using the current board state.</li>
-          <li>Next step advances one generation without entering autoplay.</li>
-          <li>Randomize is useful for finding fast-moving or self-organizing patterns.</li>
-          <li>Pick a pattern type and shape, then click the board to stamp it.</li>
-        </ul>
-      </section>
-    </aside>
+    <ul>
+      <li>Edit the field while paused by clicking or dragging across cells.</li>
+      <li>Start runs the simulation continuously using the current board state.</li>
+      <li>Next step advances one generation without entering autoplay.</li>
+      <li>Randomize is useful for finding fast-moving or self-organizing patterns.</li>
+      <li>Pick a pattern type and shape, then click the board to stamp it.</li>
+    </ul>
   </section>
 </section>
