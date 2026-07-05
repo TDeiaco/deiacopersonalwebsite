@@ -1,7 +1,8 @@
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { LIFE_PATTERN_CATEGORIES, LifePattern, LifePatternCategory } from './game-of-life-patterns';
 
 @Component({
   standalone: true,
@@ -9,7 +10,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
   templateUrl: './game-of-life.component.html',
   styleUrls: ['./game-of-life.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush, // Optimize change detection,
-  imports: [MatButtonModule, MatGridListModule, NgClass, NgFor]
+  imports: [MatButtonModule, MatGridListModule, NgClass, NgFor, NgIf]
 })
 export class GameOfLifeComponent implements OnInit, OnDestroy {
   // --- Configuration ---
@@ -28,6 +29,11 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
   drawAlive = true; // when true we paint alive cells, when false we paint dead
   private hasDraggedSinceMouseDown = false;
   private pendingDrawCell: { row: number; col: number } | null = null;
+
+  // --- Pattern stamping ---
+  patternCategories: LifePatternCategory[] = LIFE_PATTERN_CATEGORIES;
+  selectedCategoryName: string | null = null;
+  selectedPatternName: string | null = null;
 
   // Inject ChangeDetectorRef for manual change detection triggering
   constructor(private cd: ChangeDetectorRef) { }
@@ -189,9 +195,54 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
     return Array.from({ length: this.cols }, (_, i) => i);
   }
 
+  get availablePatterns(): LifePattern[] {
+    const category = this.patternCategories.find(c => c.name === this.selectedCategoryName);
+    return category ? category.patterns : [];
+  }
+
+  get selectedPattern(): LifePattern | null {
+    if (!this.selectedPatternName) return null;
+    return this.availablePatterns.find(p => p.name === this.selectedPatternName) || null;
+  }
+
+  onCategoryChange(categoryName: string): void {
+    this.selectedCategoryName = categoryName || null;
+    this.selectedPatternName = null;
+    this.cd.markForCheck();
+  }
+
+  onPatternChange(patternName: string): void {
+    this.selectedPatternName = patternName || null;
+    this.cd.markForCheck();
+  }
+
+  /**
+   * Stamps the currently selected pattern onto the board, centered on (row, col).
+   */
+  private stampPattern(row: number, col: number): void {
+    const pattern = this.selectedPattern;
+    if (!pattern) return;
+
+    const maxRow = Math.max(...pattern.cells.map(([r]) => r));
+    const maxCol = Math.max(...pattern.cells.map(([, c]) => c));
+    const rowOffset = Math.floor(maxRow / 2);
+    const colOffset = Math.floor(maxCol / 2);
+
+    for (const [r, c] of pattern.cells) {
+      this.activeCells.add(this.getCoordKey(row + r - rowOffset, col + c - colOffset));
+    }
+    this.cd.markForCheck();
+  }
+
   // Called on mouse down over a cell. left-button = paint alive, right-button = paint dead
   onCellMouseDown(i: number, j: number, event: MouseEvent) {
     event.preventDefault();
+
+    if (this.selectedPattern && !this.isRunning) {
+      this.stampPattern(i, j);
+      return;
+    }
+
     this.isDrawing = true;
     this.drawAlive = event.button === 0; // 0 = left, 2 = right
     this.hasDraggedSinceMouseDown = false;
@@ -218,7 +269,7 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
   }
 
   onCellClick(i: number, j: number): void {
-    if (this.isRunning || this.hasDraggedSinceMouseDown) {
+    if (this.isRunning || this.hasDraggedSinceMouseDown || this.selectedPattern) {
       return;
     }
 

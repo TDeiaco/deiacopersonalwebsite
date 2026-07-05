@@ -18,7 +18,7 @@
   <section class="life-workspace">
     <div class="life-grid-card" [class.drawing]="isDrawing">
       <div class="life-grid-header">
-        <div>
+        <div class="life-grid-title">
           <span class="status-label">Live board</span>
           <h2>{{ rows }} x {{ cols }} field</h2>
         </div>
@@ -58,6 +58,59 @@
         </div>
       </section>
 
+      <section class="life-control-card">
+        <div class="life-control-header">
+          <span class="status-label">Patterns</span>
+          <h3>Stamp a shape</h3>
+        </div>
+
+        <div class="life-pattern-row">
+          <div class="life-field">
+            <label class="life-field-label" for="pattern-category-select">
+              Type
+              <span class="life-info-bubble" tabindex="0">?
+                <span class="life-info-tooltip">
+                  <ng-container *ngFor="let category of patternCategories; let last = last">
+                    <strong>{{ category.name }}</strong> — {{ category.description }}<br *ngIf="!last">
+                  </ng-container>
+                </span>
+              </span>
+            </label>
+            <select id="pattern-category-select" #categorySelect
+                    class="life-select"
+                    [disabled]="isRunning"
+                    (change)="onCategoryChange(categorySelect.value)">
+              <option value="">Choose a type…</option>
+              <option *ngFor="let category of patternCategories"
+                      [value]="category.name"
+                      [selected]="category.name === selectedCategoryName">
+                {{ category.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="life-field">
+            <label class="life-field-label" for="pattern-select">
+              Shape
+              <span class="life-info-bubble" *ngIf="selectedPattern as pattern" tabindex="0">?
+                <span class="life-info-tooltip">{{ pattern.description }}</span>
+              </span>
+            </label>
+            <select id="pattern-select" #patternSelect
+                    class="life-select"
+                    [disabled]="isRunning || !selectedCategoryName"
+                    (change)="onPatternChange(patternSelect.value)">
+              <option value="">Choose a pattern…</option>
+              <option *ngFor="let pattern of availablePatterns"
+                      [value]="pattern.name"
+                      [selected]="pattern.name === selectedPatternName">
+                {{ pattern.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </section>
+
       <section class="life-control-card life-info-card">
         <div class="life-control-header">
           <span class="status-label">Guide</span>
@@ -69,6 +122,7 @@
           <li>Start runs the simulation continuously using the current board state.</li>
           <li>Next step advances one generation without entering autoplay.</li>
           <li>Randomize is useful for finding fast-moving or self-organizing patterns.</li>
+          <li>Pick a pattern type and shape, then click the board to stamp it.</li>
         </ul>
       </section>
     </aside>
