@@ -1,0 +1,128 @@
+<section class="quantum-page">
+  <header class="quantum-hero">
+    <div>
+      <p class="quantum-kicker">Quantum-resistant cryptography</p>
+      <h1>Quantum-resistant lattice encryption.</h1>
+      <p class="quantum-intro">
+        A browser-side tool using ML-KEM-768 lattice key exchange and AES-256-GCM for secure message transfer.
+      </p>
+    </div>
+
+    <div class="quantum-status-card">
+      <span class="status-label">Status</span>
+      <strong>{{ errorMessage || statusMessage }}</strong>
+      <p *ngIf="!errorMessage">Share the encrypted bundle with the receiver. Keep the private key on the receiving side.</p>
+      <p *ngIf="errorMessage">Fix the missing or mismatched values and try again.</p>
+    </div>
+  </header>
+
+  <section class="quantum-workspace">
+    <section class="quantum-panel sender-panel">
+      <div class="quantum-panel-header">
+        <div>
+          <span class="status-label">Sender</span>
+          <h2>Create an encrypted bundle</h2>
+        </div>
+
+        <button type="button" class="quantum-secondary" (click)="generateKeySet()">Generate lattice keys</button>
+      </div>
+
+      <div class="quantum-field-grid">
+        <label>
+          <span class="quantum-field-head">
+            <span class="quantum-field-label">Recipient public key</span>
+            <button type="button" class="quantum-copy inline" (click)="copyField(recipientPublicKeyText, 'Public key')">Copy</button>
+          </span>
+          <textarea [(ngModel)]="recipientPublicKeyText" rows="4"></textarea>
+        </label>
+
+        <label>
+          <span class="quantum-field-head">
+            <span class="quantum-field-label">Recipient private key</span>
+            <button type="button" class="quantum-copy inline" (click)="copyField(privateKeyText, 'Private key')">Copy</button>
+          </span>
+          <textarea [(ngModel)]="privateKeyText" rows="4"></textarea>
+        </label>
+      </div>
+
+      <label for="plainText">
+        <span class="quantum-field-label">Message to encrypt</span>
+        <textarea id="plainText" [(ngModel)]="plainText" rows="8"></textarea>
+      </label>
+
+      <label>
+        <span class="quantum-field-head">
+          <span class="quantum-field-label">Encrypted bundle</span>
+          <button type="button" class="quantum-copy inline" (click)="copyField(encryptedBundleText, 'Encrypted bundle')">Copy</button>
+        </span>
+        <textarea [(ngModel)]="encryptedBundleText" rows="9" readonly></textarea>
+      </label>
+
+      <div class="quantum-inline-actions">
+        <button type="button" class="quantum-primary" (click)="encryptMessage()">Encrypt text</button>
+        <button type="button" class="quantum-secondary subtle" (click)="toggleInternals()">{{ showInternals ? 'Hide raw fields' : 'Show raw fields' }}</button>
+      </div>
+
+      <section *ngIf="showInternals" class="quantum-internals-card">
+        <div class="quantum-internals-header">
+          <span class="status-label">Internals</span>
+          <p>Raw transfer fields if you want them separately instead of the bundle.</p>
+        </div>
+
+        <label>
+          <span class="quantum-field-head">
+            <span class="quantum-field-label">Nonce</span>
+            <button type="button" class="quantum-copy inline" (click)="copyField(nonceText, 'Nonce')">Copy</button>
+          </span>
+          <textarea [(ngModel)]="nonceText" rows="3"></textarea>
+        </label>
+
+        <label for="cipherText">
+          <span class="quantum-field-head">
+            <span class="quantum-field-label">Ciphertext</span>
+            <button type="button" class="quantum-copy inline" (click)="copyField(cipherText, 'Ciphertext')">Copy</button>
+          </span>
+          <textarea id="cipherText" [(ngModel)]="cipherText" rows="6" readonly></textarea>
+        </label>
+
+        <label>
+          <span class="quantum-field-head">
+            <span class="quantum-field-label">Lattice capsule</span>
+            <button type="button" class="quantum-copy inline" (click)="copyField(kemCipherText, 'Lattice capsule')">Copy</button>
+          </span>
+          <textarea [(ngModel)]="kemCipherText" rows="5" readonly></textarea>
+        </label>
+      </section>
+    </section>
+
+    <section class="quantum-panel receiver-panel">
+      <div class="quantum-panel-header">
+        <div>
+          <span class="status-label">Receiver</span>
+          <h2>Open the encrypted bundle</h2>
+          <p class="quantum-panel-copy">Paste the bundle, keep the private key local, and recover the message.</p>
+        </div>
+      </div>
+
+      <label for="decryptBundleText">
+        <span class="quantum-field-label">Paste encrypted bundle</span>
+        <textarea id="decryptBundleText" [(ngModel)]="decryptBundleText" rows="9"></textarea>
+      </label>
+
+      <label>
+        <span class="quantum-field-head">
+          <span class="quantum-field-label">Private key</span>
+          <button type="button" class="quantum-copy inline" (click)="copyField(decryptPrivateKeyText, 'Private key')">Copy</button>
+        </span>
+        <textarea [(ngModel)]="decryptPrivateKeyText" rows="5"></textarea>
+      </label>
+
+      <button type="button" class="quantum-primary" (click)="decryptMessage()">Decrypt text</button>
+
+      <label for="decryptedText">
+        <span class="quantum-field-label">Recovered plaintext</span>
+        <textarea id="decryptedText" [(ngModel)]="decryptedText" rows="8" readonly></textarea>
+      </label>
+    </section>
+  </section>
+</section>

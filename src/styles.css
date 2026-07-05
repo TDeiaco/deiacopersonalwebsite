@@ -17,6 +17,7 @@ body {
   --line: rgba(22, 24, 23, 0.12);
   --accent: #0f7c73;
   --accent-strong: #0a5c56;
+  --dark-card-label: #8fe5d8;
   --accent-warm: #c96e3d;
   --shadow: 0 18px 50px rgba(50, 38, 26, 0.12);
   --radius-xl: 32px;
@@ -205,6 +206,7 @@ h6 {
   min-width: 300px;
   max-width: 420px;
   padding: 22px 18px;
+  overflow-y: auto;
   border-right: 1px solid rgba(22, 24, 23, 0.08);
   background:
     linear-gradient(180deg, rgba(255, 252, 247, 0.82), rgba(246, 239, 230, 0.92)),
@@ -216,10 +218,11 @@ h6 {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: 100%;
+  min-height: 100%;
 }
 
 .nav-brand {
+  flex-shrink: 0;
   height: auto;
   min-height: 0;
   padding: 0;
@@ -305,6 +308,7 @@ h6 {
 .nav-list {
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   gap: 6px;
   padding: 0;
 }
@@ -347,7 +351,7 @@ h6 {
 .submenu {
   display: grid;
   gap: 6px;
-  margin: -2px 0 8px;
+  margin: 0 0 2px;
   padding-left: 18px;
 }
 
@@ -467,7 +471,7 @@ mat-sidenav-content {
 
 .orbit-label {
   margin-bottom: 8px;
-  color: #8fe5d8;
+  color: var(--dark-card-label);
 }
 
 .orbit-card-a {
@@ -541,6 +545,7 @@ mat-sidenav-content {
 }
 
 .project-card.systems .project-tag,
+.project-card.security .project-tag,
 .project-card.fractal.alt .project-tag,
 .project-card.external .project-tag,
 .project-card.bio .project-tag {
@@ -573,6 +578,7 @@ mat-sidenav-content {
 
 .fractal.alt,
 .systems,
+.security,
 .photo,
 .external,
 .bio {
@@ -581,6 +587,7 @@ mat-sidenav-content {
 
 .fractal.alt p,
 .systems p,
+.security p,
 .photo p,
 .external p,
 .bio p {
@@ -588,10 +595,18 @@ mat-sidenav-content {
 }
 
 .systems,
+.security,
 .photo,
 .external,
 .bio {
   grid-column: span 4;
+}
+
+.security::before {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(111, 231, 216, 0.18), transparent 22%),
+    linear-gradient(135deg, rgba(16, 22, 28, 0.98), rgba(20, 36, 39, 0.96)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 10px, transparent 10px 20px);
 }
 
 .systems::before {
@@ -648,6 +663,7 @@ mat-sidenav-content {
   .tall,
   .fractal,
   .systems,
+  .security,
   .photo,
   .external,
   .bio {
@@ -743,6 +759,19 @@ mat-sidenav-content {
   border-radius: 24px;
   background: rgba(28, 34, 32, 0.95);
   color: #f9f6f1;
+}
+
+.mandelbrot-status-card .status-label,
+.buddhabrot-status-card .status-label,
+.life-status-card .status-label,
+.photography-hero-card .status-label,
+.quantum-status-card .status-label {
+  display: block;
+  color: var(--dark-card-label);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .mandelbrot-status-card strong {
@@ -1543,5 +1572,250 @@ mat-sidenav-content {
 
   .bio-actions {
     flex-direction: column;
+  }
+}
+
+.quantum-page {
+  display: grid;
+  gap: 24px;
+}
+
+.quantum-hero,
+.quantum-page .quantum-panel {
+  border: 1px solid rgba(22, 24, 23, 0.08);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(247, 241, 234, 0.84));
+  box-shadow: var(--shadow);
+}
+
+.quantum-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.75fr);
+  gap: 20px;
+  padding: 28px;
+}
+
+.quantum-kicker,
+.quantum-page .status-label,
+.quantum-page .quantum-field-label {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.quantum-page h1,
+.quantum-page h2 {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+.quantum-page h1 {
+  margin: 10px 0 0.75rem;
+  font-size: clamp(2.4rem, 4.5vw, 4.1rem);
+  line-height: 1;
+}
+
+.quantum-intro,
+.quantum-status-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.quantum-intro {
+  max-width: 58ch;
+  font-size: 1.05rem;
+}
+
+.quantum-status-card {
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(28, 34, 32, 0.95);
+  color: #f9f6f1;
+}
+
+.quantum-status-card strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.quantum-status-card p {
+  margin-top: 12px;
+  color: rgba(249, 246, 241, 0.78);
+}
+
+.quantum-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 20px;
+  align-items: start;
+}
+
+.quantum-page .quantum-panel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 22px;
+}
+
+.quantum-page .receiver-panel {
+  width: 100%;
+  justify-self: end;
+  background:
+    radial-gradient(circle at top right, rgba(15, 124, 115, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(249, 246, 241, 0.98), rgba(242, 236, 228, 0.92));
+}
+
+.quantum-panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.quantum-panel-header h2 {
+  margin-top: 8px;
+}
+
+.quantum-panel-copy {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.quantum-field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.quantum-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.quantum-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.quantum-internals-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(22, 24, 23, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 252, 247, 0.68);
+}
+
+.quantum-internals-header p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.quantum-page label {
+  display: grid;
+  gap: 8px;
+}
+
+.quantum-page textarea,
+.quantum-page button {
+  font: inherit;
+}
+
+.quantum-page textarea {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px;
+  border: 1px solid rgba(22, 24, 23, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 252, 247, 0.76);
+  color: var(--text);
+  resize: vertical;
+}
+
+.quantum-page textarea[readonly] {
+  background: rgba(243, 238, 231, 0.92);
+}
+
+.quantum-primary,
+.quantum-secondary,
+.quantum-copy {
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 999px;
+}
+
+.quantum-primary {
+  justify-self: start;
+  background: var(--surface-dark);
+  color: #f9f6f1;
+}
+
+.quantum-secondary {
+  background: rgba(15, 124, 115, 0.12);
+  color: var(--accent-strong);
+}
+
+.quantum-secondary.subtle {
+  background: rgba(28, 34, 32, 0.08);
+  color: var(--text);
+}
+
+.quantum-copy {
+  justify-self: start;
+  min-height: 40px;
+  padding: 0 14px;
+  background: rgba(28, 34, 32, 0.08);
+  color: var(--text);
+}
+
+.quantum-copy.inline {
+  min-height: 34px;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .quantum-hero,
+  .quantum-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .quantum-page .receiver-panel {
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 720px) {
+  .quantum-hero,
+  .quantum-page .quantum-panel {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .quantum-field-grid,
+  .quantum-panel-header {
+    grid-template-columns: 1fr;
+  }
+
+  .quantum-field-head,
+  .quantum-inline-actions,
+  .quantum-panel-header {
+    display: grid;
+  }
+
+  .quantum-primary,
+  .quantum-secondary,
+  .quantum-copy {
+    width: 100%;
+    justify-self: stretch;
   }
 }
