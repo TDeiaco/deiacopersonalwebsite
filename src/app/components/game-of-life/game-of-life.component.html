@@ -22,8 +22,31 @@
           <span class="status-label">Live board</span>
           <h2>{{ rows }} x {{ cols }} field</h2>
         </div>
-        <div class="life-badges">
-          <span>{{ isRunning ? 'Simulation active' : 'Ready to edit' }}</span>
+
+        <div class="life-grid-header-actions">
+          <div class="life-grid-size">
+            <label class="life-size-field">
+              R
+              <input #rowsInput type="number" aria-label="Rows"
+                     [attr.min]="minRows" [attr.max]="maxRows"
+                     [value]="rows" [disabled]="isRunning">
+            </label>
+            <label class="life-size-field">
+              C
+              <input #colsInput type="number" aria-label="Columns"
+                     [attr.min]="minCols" [attr.max]="maxCols"
+                     [value]="cols" [disabled]="isRunning">
+            </label>
+            <button mat-raised-button class="life-size-apply-inline"
+                    (click)="applyBoardSize(rowsInput.value, colsInput.value)"
+                    [disabled]="isRunning">
+              Resize
+            </button>
+          </div>
+
+          <div class="life-badges">
+            <span>{{ isRunning ? 'Simulation active' : 'Ready to edit' }}</span>
+          </div>
         </div>
       </div>
 

@@ -1231,6 +1231,7 @@ mat-sidenav-content {
   align-items: start;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .life-page .life-control-header h3 {
@@ -1245,6 +1246,53 @@ mat-sidenav-content {
 
 .life-page .life-grid-title h2 {
   margin-top: 0;
+}
+
+.life-page .life-grid-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.life-page .life-grid-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.life-page .life-size-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+}
+
+.life-page .life-size-field input {
+  width: 56px;
+  min-height: 34px;
+  padding: 0 8px;
+  border: 1px solid rgba(22, 24, 23, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 252, 247, 0.75);
+  color: var(--text);
+  font: inherit;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.life-page .life-size-apply-inline {
+  min-height: 34px;
+  padding: 0 16px;
+  border-radius: 999px;
+  box-shadow: none;
+  background: rgba(15, 124, 115, 0.12) !important;
+  color: var(--accent-strong) !important;
 }
 
 .life-page .life-badges {

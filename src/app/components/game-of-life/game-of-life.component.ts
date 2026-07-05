@@ -18,6 +18,11 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
   cols = 100;
   intervalTime = 100; // ms
 
+  readonly minRows = 10;
+  readonly maxRows = 300;
+  readonly minCols = 10;
+  readonly maxCols = 300;
+
   // --- State ---
   // Use a Set to store coordinates of live cells ("row,col")
   activeCells = new Set<string>();
@@ -61,6 +66,23 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
   initializeGrid(): void {
     this.activeCells.clear();
     this.cd.markForCheck(); // Trigger change detection
+  }
+
+  /**
+   * Applies a new board size (clamped to sensible bounds) and clears the grid,
+   * since existing cell coordinates don't necessarily map to a resized board.
+   */
+  applyBoardSize(rowsValue: string, colsValue: string): void {
+    if (this.isRunning) return;
+
+    this.rows = this.clamp(parseInt(rowsValue, 10), this.minRows, this.maxRows, this.rows);
+    this.cols = this.clamp(parseInt(colsValue, 10), this.minCols, this.maxCols, this.cols);
+    this.initializeGrid();
+  }
+
+  private clamp(value: number, min: number, max: number, fallback: number): number {
+    if (Number.isNaN(value)) return fallback;
+    return Math.min(max, Math.max(min, value));
   }
 
   /**
