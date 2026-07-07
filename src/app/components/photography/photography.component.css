@@ -91,3 +91,94 @@
   cursor: zoom-in;
   display: block;
 }
+
+.photography-page {
+  display: grid;
+  gap: 24px;
+}
+
+.photography-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.75fr);
+  gap: 20px;
+  padding: 28px;
+}
+
+.photography-page h1 {
+  margin: 10px 0 0.75rem;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: clamp(2.5rem, 4.6vw, 4.4rem);
+  line-height: 1;
+}
+
+.photography-intro,
+.album-description,
+.photo-loading {
+  color: var(--muted);
+}
+
+.photography-intro {
+  max-width: 58ch;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.photography-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1.58fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.photography-page .photography-sidebar {
+  display: grid;
+  gap: 16px;
+}
+
+.photography-page .photo-panel,
+.photography-page .photography-gallery-card {
+  padding: 22px;
+}
+
+.photography-page .photo-select {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 10px;
+  padding: 0 14px;
+  border-radius: 14px;
+  font: inherit;
+}
+
+.photography-page .album-description {
+  margin: 10px 0 0;
+  line-height: 1.7;
+}
+
+.photography-page .photo-loading {
+  margin-bottom: 14px;
+}
+
+.photography-page mat-grid-list {
+  width: 100%;
+}
+
+.photography-page mat-grid-tile {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+@media (max-width: 1100px) {
+  .photography-hero,
+  .photography-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .photography-hero,
+  .photography-page .photo-panel,
+  .photography-page .photography-gallery-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+}

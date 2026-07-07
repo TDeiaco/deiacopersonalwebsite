@@ -1,3 +1,168 @@
-:host {
-  display: block;
+.life-page .life-main-card.drawing mat-grid-tile {
+  cursor: crosshair;
+}
+
+.life-page .life-grid-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.life-page .life-grid-title h2 {
+  margin-top: 0;
+}
+
+.life-page .life-grid-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.life-page .life-grid-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.life-page .life-size-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+}
+
+.life-page .life-size-field input {
+  width: 56px;
+  min-height: 34px;
+  padding: 0 8px;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.life-page .life-size-apply-inline {
+  min-height: 34px;
+}
+
+.life-page .life-side-pane {
+  display: grid;
+}
+
+.life-page .life-panel {
+  padding: 22px 0;
+}
+
+.life-page .life-panel:first-child {
+  padding-top: 0;
+}
+
+.life-page .life-panel:last-child {
+  padding-bottom: 0;
+}
+
+.life-page .life-panel + .life-panel {
+  border-top: 1px solid rgba(22, 24, 23, 0.08);
+}
+
+.life-page .life-pattern-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.life-page .life-field {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.life-page .life-field .field-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.life-page .life-info-bubble {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: rgba(15, 124, 115, 0.16);
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  cursor: help;
+}
+
+.life-page .life-info-bubble .life-info-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: 220px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(28, 34, 32, 0.96);
+  color: #f9f6f1;
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 120ms ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.life-page .life-info-bubble:hover .life-info-tooltip,
+.life-page .life-info-bubble:focus .life-info-tooltip,
+.life-page .life-info-bubble:focus-visible .life-info-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.life-page mat-grid-list {
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(239, 232, 222, 0.82);
+}
+
+.life-page mat-grid-tile {
+  border: 1px solid rgba(28, 34, 32, 0.08);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.life-page .alive {
+  background: #1f2523;
+}
+
+.life-page .dead {
+  background: rgba(250, 246, 240, 0.86);
+}
+
+.life-page mat-grid-tile.dead:hover {
+  background: rgba(232, 224, 214, 0.96);
+}
+
+@media (max-width: 1100px) {
+  .life-page .life-main-card {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,3 +1,5 @@
-:host {
-  display: block;
+/* The accumulator canvas is drawn at low internal resolution and scaled up,
+   so keep pixel edges crisp instead of blurred. */
+.buddhabrot-page .buddha-canvas {
+  image-rendering: pixelated;
 }

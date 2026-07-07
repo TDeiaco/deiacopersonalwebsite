@@ -22,6 +22,40 @@
   padding: 32px 40px 16px;
 }
 
+.top-color-bar {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(15, 124, 115, 0.95) 0%,
+    rgba(15, 124, 115, 0.95) 18%,
+    rgba(201, 110, 61, 0.92) 18%,
+    rgba(201, 110, 61, 0.92) 42%,
+    rgba(28, 34, 32, 0.9) 42%,
+    rgba(28, 34, 32, 0.9) 62%,
+    rgba(238, 227, 211, 0.95) 62%,
+    rgba(238, 227, 211, 0.95) 100%
+  );
+}
+
+.top-color-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.34), transparent);
+  transform: translateX(-100%);
+  animation: bar-shimmer 8s linear infinite;
+}
+
+@keyframes bar-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .app-footer {
   padding: 20px 40px 28px;
   color: var(--muted);

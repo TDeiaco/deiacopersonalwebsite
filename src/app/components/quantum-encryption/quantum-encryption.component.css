@@ -1,3 +1,204 @@
-:host {
+.quantum-page {
+  display: grid;
+  gap: 24px;
+}
+
+.quantum-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.75fr);
+  gap: 20px;
+  padding: 28px;
+}
+
+.quantum-page h1,
+.quantum-page h2 {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+.quantum-page h1 {
+  margin: 10px 0 0.75rem;
+  font-size: clamp(2.4rem, 4.5vw, 4.1rem);
+  line-height: 1;
+}
+
+.quantum-intro {
+  max-width: 58ch;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.quantum-status-card strong {
   display: block;
+  margin-top: 12px;
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.quantum-status-card p {
+  margin-top: 12px;
+  color: rgba(249, 246, 241, 0.78);
+}
+
+.quantum-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 20px;
+  align-items: start;
+}
+
+.quantum-page .quantum-panel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 22px;
+}
+
+.quantum-page .receiver-panel {
+  width: 100%;
+  justify-self: end;
+  background:
+    radial-gradient(circle at top right, rgba(15, 124, 115, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(249, 246, 241, 0.98), rgba(242, 236, 228, 0.92));
+}
+
+.quantum-panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.quantum-panel-header h2 {
+  margin-top: 8px;
+}
+
+.quantum-panel-copy {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.quantum-field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.quantum-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.quantum-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.quantum-internals-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(22, 24, 23, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 252, 247, 0.68);
+}
+
+.quantum-internals-header p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.quantum-page label {
+  display: grid;
+  gap: 8px;
+}
+
+.quantum-page textarea,
+.quantum-page button {
+  font: inherit;
+}
+
+.quantum-page textarea {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 252, 247, 0.76);
+  resize: vertical;
+}
+
+.quantum-page textarea[readonly] {
+  background: rgba(243, 238, 231, 0.92);
+}
+
+.quantum-primary,
+.quantum-secondary,
+.quantum-copy {
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 999px;
+}
+
+.quantum-primary {
+  justify-self: start;
+}
+
+.quantum-secondary.subtle {
+  background: rgba(28, 34, 32, 0.08);
+  color: var(--text);
+}
+
+.quantum-copy {
+  justify-self: start;
+  min-height: 40px;
+  padding: 0 14px;
+  background: rgba(28, 34, 32, 0.08);
+  color: var(--text);
+}
+
+.quantum-copy.inline {
+  min-height: 34px;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .quantum-hero,
+  .quantum-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .quantum-page .receiver-panel {
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 720px) {
+  .quantum-hero,
+  .quantum-page .quantum-panel {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .quantum-field-grid,
+  .quantum-panel-header {
+    grid-template-columns: 1fr;
+  }
+
+  .quantum-field-head,
+  .quantum-inline-actions,
+  .quantum-panel-header {
+    display: grid;
+  }
+
+  .quantum-primary,
+  .quantum-secondary,
+  .quantum-copy {
+    width: 100%;
+    justify-self: stretch;
+  }
 }

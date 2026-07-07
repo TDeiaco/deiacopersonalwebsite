@@ -8,7 +8,7 @@ import { LIFE_PATTERN_CATEGORIES, LifePattern, LifePatternCategory } from './gam
   standalone: true,
   selector: 'app-game-of-life',
   templateUrl: './game-of-life.component.html',
-  styleUrls: ['./game-of-life.component.css'],
+  styleUrl: './game-of-life.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush, // Optimize change detection,
   imports: [MatButtonModule, MatGridListModule, NgClass, NgFor, NgIf]
 })

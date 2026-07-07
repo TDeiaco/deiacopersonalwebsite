@@ -1,3 +1,304 @@
-:host {
-	display: block;
+.home-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 75%) minmax(220px, 25%);
+  gap: 24px;
+  padding: 34px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top left, rgba(15, 124, 115, 0.12), transparent 30%),
+    linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(247, 241, 234, 0.84));
+  overflow: hidden;
+}
+
+.hero-copy,
+.project-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-copy h1 {
+  margin: 0 0 3.875rem;
+  max-width: none;
+  font-size: clamp(2.6rem, 4.8vw, 4.8rem);
+  line-height: 1;
+}
+
+.hero-text,
+.orbit-card p,
+.project-card p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.hero-text {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 1.05rem;
+}
+
+.hero-orbit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px;
+  padding: 24px;
+  border-radius: calc(var(--radius-xl) - 10px);
+  background:
+    radial-gradient(circle at center, rgba(15, 124, 115, 0.28), transparent 26%),
+    linear-gradient(180deg, rgba(28, 34, 32, 0.96), rgba(34, 43, 40, 0.94));
+  overflow: hidden;
+}
+
+.orbit-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at center, black 54%, transparent 94%);
+}
+
+.orbit-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 240px);
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  background: rgba(249, 246, 241, 0.08);
+  color: #f6f0e8;
+  backdrop-filter: blur(12px);
+}
+
+.orbit-card strong {
+  display: block;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: 1.25rem;
+}
+
+.orbit-card p {
+  display: block;
+  margin: 10px 0 0;
+  color: rgba(246, 240, 232, 0.8);
+  font-size: 0.92rem;
+}
+
+.orbit-card-a {
+  align-self: flex-end;
+}
+
+.orbit-card-b {
+  align-self: flex-start;
+  animation-delay: -4s;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 220px;
+  padding: 22px;
+  border: 1px solid rgba(22, 24, 23, 0.08);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 252, 247, 0.74);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  overflow: hidden;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.95;
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(22, 24, 23, 0.14);
+  box-shadow: 0 24px 48px rgba(50, 38, 26, 0.18);
+}
+
+.project-card:hover::before {
+  transform: scale(1.04);
+}
+
+.project-card h2 {
+  margin: 8px 0 0;
+  font-size: 1.45rem;
+}
+
+.project-card p {
+  margin: 10px 0 0;
+  max-width: 34ch;
+  color: rgba(22, 24, 23, 0.78);
+}
+
+.project-tag {
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(18, 24, 22, 0.12);
+  background: rgba(18, 24, 22, 0.88);
+  color: #f9f6f1;
+  box-shadow: 0 10px 24px rgba(18, 24, 22, 0.14);
+}
+
+.project-card.systems .project-tag,
+.project-card.security .project-tag,
+.project-card.fractal.alt .project-tag,
+.project-card.external .project-tag,
+.project-card.bio .project-tag {
+  border-color: rgba(249, 246, 241, 0.18);
+  background: rgba(249, 246, 241, 0.92);
+  color: #18201d;
+}
+
+.tall {
+  grid-column: span 7;
+  min-height: 300px;
+}
+
+.fractal {
+  grid-column: span 5;
+}
+
+.fractal::before {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(15, 124, 115, 0.36), transparent 24%),
+    radial-gradient(circle at 82% 72%, rgba(201, 110, 61, 0.28), transparent 26%),
+    linear-gradient(135deg, rgba(255, 252, 247, 0.94), rgba(237, 226, 211, 0.92));
+}
+
+.fractal.alt::before {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(15, 124, 115, 0.28), transparent 20%),
+    linear-gradient(180deg, rgba(28, 34, 32, 0.95), rgba(44, 51, 48, 0.94));
+}
+
+.fractal.alt,
+.systems,
+.security,
+.photo,
+.external,
+.bio {
+  color: #f9f6f1;
+}
+
+.fractal.alt p,
+.systems p,
+.security p,
+.photo p,
+.external p,
+.bio p {
+  color: rgba(249, 246, 241, 0.8);
+}
+
+.systems,
+.security,
+.photo,
+.external,
+.bio {
+  grid-column: span 4;
+}
+
+.security::before {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(111, 231, 216, 0.18), transparent 22%),
+    linear-gradient(135deg, rgba(16, 22, 28, 0.98), rgba(20, 36, 39, 0.96)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 10px, transparent 10px 20px);
+}
+
+.systems::before {
+  background:
+    linear-gradient(135deg, rgba(15, 124, 115, 0.88), rgba(11, 80, 75, 0.92)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 12px, transparent 12px 24px);
+}
+
+.photo::before {
+  background:
+    linear-gradient(160deg, rgba(201, 110, 61, 0.84), rgba(118, 58, 36, 0.92)),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 28%);
+}
+
+.external::before {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(15, 124, 115, 0.26), transparent 18%),
+    linear-gradient(140deg, rgba(28, 34, 32, 0.96), rgba(44, 51, 48, 0.94));
+}
+
+.bio::before {
+  background:
+    linear-gradient(180deg, rgba(54, 60, 57, 0.94), rgba(84, 92, 88, 0.92)),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.16), transparent 30%);
+}
+
+@media (max-width: 1100px) {
+  .hero-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-panel {
+    padding: 20px;
+  }
+
+  .hero-orbit {
+    min-height: 280px;
+    padding: 18px;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card,
+  .tall,
+  .fractal,
+  .systems,
+  .security,
+  .photo,
+  .external,
+  .bio {
+    grid-column: auto;
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-copy h1 {
+    max-width: none;
+    font-size: clamp(2.25rem, 12vw, 3.4rem);
+  }
+
+  .orbit-card {
+    width: 100%;
+    max-width: none;
+  }
+
+  .orbit-card-a {
+    align-self: stretch;
+  }
+
+  .orbit-card-b {
+    align-self: stretch;
+  }
 }

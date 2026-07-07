@@ -6,7 +6,7 @@ import { DecimalPipe, NgIf } from '@angular/common';
   standalone: true,
   selector: 'app-buddhabrot',
   templateUrl: './buddhabrot.component.html',
-  styleUrls: ['./buddhabrot.component.css'],
+  styleUrl: './buddhabrot.component.css',
   imports: [FormsModule, NgIf, DecimalPipe]
 })
 export class BuddhabrotComponent implements AfterViewInit, OnDestroy {

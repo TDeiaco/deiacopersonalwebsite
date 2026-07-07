@@ -8,7 +8,6 @@ import * as math from 'mathjs'; // Import math.js
     standalone:true,
     selector: 'app-mandelbrot',
     templateUrl: './mandelbrot.component.html',
-    styleUrl: './mandelbrot.component.css',
     imports: [FormsModule, NgIf]
 })
 export class MandelbrotComponent implements AfterViewInit, OnDestroy {
