@@ -127,6 +127,7 @@
 
 mat-sidenav-content {
   background: transparent;
+  z-index: auto;
 }
 
 @media (max-width: 900px) {
