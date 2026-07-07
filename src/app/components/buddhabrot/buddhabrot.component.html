@@ -1,46 +1,46 @@
-<section class="buddhabrot-page">
-  <header class="buddhabrot-hero">
+<section class="buddhabrot-page studio-page">
+  <header class="studio-hero studio-card">
     <div>
-      <p class="buddhabrot-kicker">Fractal renderer</p>
+      <p class="studio-kicker">Fractal renderer</p>
       <h1>Buddhabrot studio.</h1>
-      <p class="buddhabrot-intro">
+      <p class="studio-intro">
         Build the image progressively from sampled escape paths, tune the batch rhythm, and watch the structure emerge over time.
       </p>
     </div>
 
-    <div class="buddhabrot-status-card">
+    <div class="studio-status-card">
       <span class="status-label">Current state</span>
       <strong>{{ isRunning ? 'Accumulating' : 'Paused' }}</strong>
       <p>{{ totalSamplesProcessed | number }} samples processed across the active render.</p>
     </div>
   </header>
 
-  <section class="buddhabrot-workspace">
-    <div class="buddha-canvas-card">
-      <div class="buddha-canvas-header">
+  <section class="studio-workspace">
+    <div class="studio-card">
+      <div class="studio-card-header">
         <div>
           <span class="status-label">Live canvas</span>
           <h2>Buddhabrot viewport</h2>
         </div>
-        <div class="buddha-badges">
+        <div class="studio-badges">
           <span>{{ xRes }} x {{ yRes }}</span>
           <span>{{ isRunning ? 'Running' : 'Ready' }}</span>
         </div>
       </div>
 
-      <div class="buddha-canvas-frame">
-        <canvas #buddhaCanvas [width]="xRes" [height]="yRes" class="buddha-canvas"></canvas>
+      <div class="studio-canvas-frame">
+        <canvas #buddhaCanvas [width]="xRes" [height]="yRes" class="studio-canvas buddha-canvas"></canvas>
       </div>
     </div>
 
-    <aside class="buddha-controls-column">
-      <section class="buddha-control-card">
-        <div class="buddha-control-header">
+    <aside class="studio-controls-column">
+      <section class="studio-card">
+        <div class="studio-card-header">
           <span class="status-label">Controls</span>
           <h3>Batch actions</h3>
         </div>
 
-        <div class="buddha-button-grid">
+        <div class="studio-button-grid">
           <button type="button" class="primary-action" (click)="start()" [disabled]="isRunning">Start</button>
           <button type="button" class="secondary-action" (click)="stop()" [disabled]="!isRunning">Stop</button>
           <button type="button" class="secondary-action" (click)="singleBatch()">Single batch</button>
@@ -49,58 +49,72 @@
         </div>
       </section>
 
-      <section class="buddha-control-card">
-        <div class="buddha-control-header">
+      <section class="studio-card">
+        <div class="studio-card-header">
           <span class="status-label">Parameters</span>
           <h3>Render tuning</h3>
         </div>
 
-        <div class="buddha-field-grid">
+        <div class="studio-field-grid">
           <label>
             <span class="field-label">Samples per batch</span>
-            <input type="number" min="1" [(ngModel)]="samplesPerBatch" />
+            <input class="field-control" type="number" min="1" [(ngModel)]="samplesPerBatch" />
           </label>
           <label>
             <span class="field-label">Iteration count</span>
-            <input type="number" min="1" [(ngModel)]="iterationCount" />
+            <input class="field-control" type="number" min="1" [(ngModel)]="iterationCount" />
           </label>
           <label>
             <span class="field-label">Hit weight</span>
-            <input type="number" min="1" [(ngModel)]="hitWeight" />
+            <input class="field-control" type="number" min="1" [(ngModel)]="hitWeight" />
           </label>
           <label>
             <span class="field-label">Batch interval (ms)</span>
-            <input type="number" min="10" [(ngModel)]="batchIntervalMs" />
+            <input class="field-control" type="number" min="10" [(ngModel)]="batchIntervalMs" />
           </label>
         </div>
       </section>
-
-      <section class="buddha-control-card buddha-stats-card">
-        <div class="buddha-control-header">
-          <span class="status-label">Stats</span>
-          <h3>Accumulator</h3>
-        </div>
-
-        <div class="buddha-stat-list">
-          <div><span>Running</span><strong>{{ isRunning ? 'Yes' : 'No' }}</strong></div>
-          <div><span>Total samples</span><strong>{{ totalSamplesProcessed | number }}</strong></div>
-          <div><span>Max channels</span><strong>{{ maxAcc[0] }} / {{ maxAcc[1] }} / {{ maxAcc[2] }}</strong></div>
-        </div>
-      </section>
-
-      <section class="buddha-control-card buddha-info-card">
-        <div class="buddha-control-header">
-          <span class="status-label">Guide</span>
-          <h3>How it behaves</h3>
-        </div>
-
-        <ul>
-          <li>Start repeatedly requests random samples so the image gradually resolves.</li>
-          <li>Single batch runs one accumulation cycle without entering the loop.</li>
-          <li>Clear resets the accumulator without changing the current view window.</li>
-          <li>Reset view restores the default frame and clears the current accumulation.</li>
-        </ul>
-      </section>
     </aside>
+  </section>
+
+  <section class="studio-card guide-card">
+    <div class="studio-card-header">
+      <span class="status-label">Guide</span>
+      <h3>How it behaves</h3>
+    </div>
+
+    <ul>
+      <li>Start repeatedly requests random samples so the image gradually resolves.</li>
+      <li>Single batch runs one accumulation cycle without entering the loop.</li>
+      <li>Clear resets the accumulator without changing the current view window.</li>
+      <li>Reset view restores the default frame and clears the current accumulation.</li>
+    </ul>
+  </section>
+
+  <section class="studio-card mechanics-card">
+    <div class="studio-card-header">
+      <span class="status-label">Mechanics</span>
+      <h3>What's actually happening</h3>
+    </div>
+
+    <p class="mechanics-intro">
+      Unlike the Mandelbrot render, this doesn't compute one iteration count per pixel. Instead, each
+      batch throws thousands of random points <strong>c</strong> at the current view window and traces
+      the same escape trajectory, recording every pixel it passes through along the way:
+    </p>
+
+    <p class="mechanics-formula">z = z² + c</p>
+
+    <ul>
+      <li>If a point escapes before the iteration cap &mdash; meaning it's <strong>outside</strong> the Mandelbrot set &mdash; every pixel its path touched gets a "hit" added to an accumulator.</li>
+      <li>Points that never escape (the set itself) are discarded entirely and contribute nothing to the image.</li>
+      <li>Batches alternate contributing to the red, green, and blue channels in turn, so the color you see is built from three separately accumulated passes.</li>
+      <li>Each redraw normalizes every channel against its own brightest pixel and applies a gamma curve, keeping faint, low-density areas visible next to the brightest ones.</li>
+    </ul>
+
+    <p class="mechanics-note">
+      That's why the image looks ghostly and takes time to resolve: it's built entirely from the paths
+      of escaping points, and more samples mean a cleaner accumulation of where those paths tend to go.
+    </p>
   </section>
 </section>

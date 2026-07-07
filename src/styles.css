@@ -692,78 +692,77 @@ mat-sidenav-content {
   }
 }
 
-.mandelbrot-page {
+/*
+ * Shared "studio" layout used by the three interactive/generative pages
+ * (Mandelbrot, Buddhabrot, Game of Life). Each page keeps its own root
+ * class (.mandelbrot-page / .buddhabrot-page / .life-page) alongside
+ * .studio-page, both for readability and as a scope for the handful of
+ * rules that are genuinely page-specific (further down this file).
+ */
+.studio-page {
   display: grid;
   gap: 24px;
 }
 
-.mandelbrot-hero,
-.mandelbrot-page .canvas-card,
-.mandelbrot-page .control-card {
+.studio-page .studio-card {
+  padding: 22px;
   border: 1px solid rgba(22, 24, 23, 0.08);
   border-radius: 28px;
   background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(247, 241, 234, 0.84));
   box-shadow: var(--shadow);
 }
 
-.mandelbrot-hero {
+.studio-page .studio-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
   gap: 20px;
   padding: 28px;
 }
 
-.mandelbrot-kicker,
-.mandelbrot-page .status-label,
-.mandelbrot-page .field-label {
+.studio-page .studio-kicker,
+.studio-page .status-label,
+.studio-page .field-label {
   display: block;
+  color: var(--accent-strong);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.mandelbrot-kicker,
-.mandelbrot-page .status-label {
-  color: var(--accent-strong);
-}
-
-.mandelbrot-page h1,
-.mandelbrot-page h2,
-.mandelbrot-page h3 {
+.studio-page h1,
+.studio-page h2,
+.studio-page h3 {
   margin: 0;
   font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
 }
 
-.mandelbrot-page h1 {
+.studio-page h1 {
   margin: 10px 0 0.75rem;
   font-size: clamp(2.5rem, 4.5vw, 4.25rem);
   line-height: 1;
 }
 
-.mandelbrot-intro,
-.mandelbrot-status-card p,
-.mandelbrot-page .info-card li,
-.mandelbrot-page .info-card a {
+.studio-page .studio-intro,
+.studio-page .studio-status-card p,
+.studio-page .studio-card li {
   color: var(--muted);
 }
 
-.mandelbrot-intro {
-  max-width: 54ch;
+.studio-page .studio-intro {
+  max-width: 56ch;
   margin: 0;
   font-size: 1.05rem;
 }
 
-.mandelbrot-status-card {
+.studio-page .studio-status-card {
   padding: 22px;
   border-radius: 24px;
   background: rgba(28, 34, 32, 0.95);
   color: #f9f6f1;
 }
 
-.mandelbrot-status-card .status-label,
-.buddhabrot-status-card .status-label,
-.life-status-card .status-label,
+.studio-status-card .status-label,
 .photography-hero-card .status-label,
 .quantum-status-card .status-label {
   display: block;
@@ -774,56 +773,45 @@ mat-sidenav-content {
   text-transform: uppercase;
 }
 
-.mandelbrot-status-card strong {
+.studio-page .studio-status-card strong {
   display: block;
   margin-top: 12px;
   font-size: 1.35rem;
 }
 
-.mandelbrot-status-card p {
+.studio-page .studio-status-card p {
   margin: 14px 0 0;
   color: rgba(249, 246, 241, 0.76);
 }
 
-.mandelbrot-workspace {
+.studio-page .studio-workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.8fr);
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
   gap: 20px;
   align-items: start;
 }
 
-.mandelbrot-page .canvas-card,
-.mandelbrot-page .control-card {
-  padding: 22px;
-}
-
-.mandelbrot-page .canvas-card-header,
-.mandelbrot-page .control-card-header,
-.mandelbrot-page .button-row,
-.mandelbrot-page .toggle-row {
+.studio-page .studio-card-header {
   display: flex;
-}
-
-.mandelbrot-page .canvas-card-header,
-.mandelbrot-page .control-card-header {
   align-items: start;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
-.mandelbrot-page .canvas-card-header h2,
-.mandelbrot-page .control-card-header h3 {
+.studio-page .studio-card-header h2,
+.studio-page .studio-card-header h3 {
   margin-top: 8px;
 }
 
-.mandelbrot-page .canvas-badges {
+.studio-page .studio-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.mandelbrot-page .canvas-badges span,
-.mandelbrot-page .progress-note {
+.studio-page .studio-badges span,
+.studio-page .progress-note {
   padding: 7px 10px;
   border-radius: 999px;
   background: rgba(15, 124, 115, 0.1);
@@ -831,14 +819,14 @@ mat-sidenav-content {
   font-size: 0.88rem;
 }
 
-.mandelbrot-page .canvas-frame {
+.studio-page .studio-canvas-frame {
   margin-top: 20px;
   padding: 18px;
   border-radius: 24px;
   background: rgba(28, 34, 32, 0.95);
 }
 
-.mandelbrot-page canvas {
+.studio-page .studio-canvas {
   display: block;
   width: 100%;
   max-width: 700px;
@@ -848,17 +836,18 @@ mat-sidenav-content {
   border-radius: 18px;
 }
 
-.mandelbrot-page .controls-column {
+.studio-page .studio-controls-column {
   display: grid;
   gap: 16px;
 }
 
-.mandelbrot-page input,
-.mandelbrot-page button {
+.studio-page input,
+.studio-page button,
+.studio-page select {
   font: inherit;
 }
 
-.mandelbrot-page input:not([type='checkbox']) {
+.studio-page .field-control {
   width: 100%;
   min-height: 46px;
   margin-top: 6px;
@@ -869,373 +858,126 @@ mat-sidenav-content {
   color: var(--text);
 }
 
-.mandelbrot-page .button-row {
+.studio-page .studio-button-row {
+  display: flex;
   gap: 10px;
   margin-bottom: 12px;
 }
 
-.mandelbrot-page .primary-action,
-.mandelbrot-page .secondary-action {
-  min-height: 46px;
-  padding: 0 16px;
-  border-radius: 999px;
-  border: 0;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-.mandelbrot-page .primary-action {
-  background: var(--surface-dark);
-  color: #f9f6f1;
-}
-
-.mandelbrot-page .secondary-action {
-  background: rgba(15, 124, 115, 0.12);
-  color: var(--accent-strong);
-}
-
-.mandelbrot-page .toggle-row {
-  align-items: center;
-  justify-content: space-between;
-  margin: 16px 0 12px;
-}
-
-.mandelbrot-page .color-grid,
-.mandelbrot-page .coord-grid {
-  display: grid;
-  gap: 10px;
-}
-
-.mandelbrot-page .coord-grid label {
-  display: block;
-}
-
-.mandelbrot-page .info-card ul {
-  margin: 14px 0 0;
-  padding-left: 18px;
-}
-
-.mandelbrot-page .info-card li + li {
-  margin-top: 8px;
-}
-
-.mandelbrot-page .info-card a {
-  display: inline-block;
-  margin-top: 14px;
-  color: var(--accent-strong);
-  text-decoration: none;
-}
-
-@media (max-width: 1100px) {
-  .mandelbrot-hero,
-  .mandelbrot-workspace {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 720px) {
-  .mandelbrot-hero,
-  .mandelbrot-page .canvas-card,
-  .mandelbrot-page .control-card {
-    padding: 18px;
-    border-radius: 22px;
-  }
-
-  .mandelbrot-page .button-row {
-    flex-direction: column;
-  }
-}
-
-.buddhabrot-page {
-  display: grid;
-  gap: 24px;
-}
-
-.buddhabrot-hero,
-.buddhabrot-page .buddha-canvas-card,
-.buddhabrot-page .buddha-control-card {
-  border: 1px solid rgba(22, 24, 23, 0.08);
-  border-radius: 28px;
-  background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(247, 241, 234, 0.84));
-  box-shadow: var(--shadow);
-}
-
-.buddhabrot-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
-  gap: 20px;
-  padding: 28px;
-}
-
-.buddhabrot-kicker {
-  display: block;
-  color: var(--accent-strong);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.buddhabrot-page h1,
-.buddhabrot-page h2,
-.buddhabrot-page h3 {
-  margin: 0;
-  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
-}
-
-.buddhabrot-page h1 {
-  margin: 10px 0 0.75rem;
-  font-size: clamp(2.5rem, 4.5vw, 4.25rem);
-  line-height: 1;
-}
-
-.buddhabrot-intro,
-.buddhabrot-status-card p,
-.buddhabrot-page li,
-.buddhabrot-page .buddha-stat-list span {
-  color: var(--muted);
-}
-
-.buddhabrot-intro {
-  max-width: 56ch;
-  margin: 0;
-  font-size: 1.05rem;
-}
-
-.buddhabrot-status-card {
-  padding: 22px;
-  border-radius: 24px;
-  background: rgba(28, 34, 32, 0.95);
-  color: #f9f6f1;
-}
-
-.buddhabrot-status-card strong {
-  display: block;
-  margin-top: 12px;
-  font-size: 1.35rem;
-}
-
-.buddhabrot-status-card p {
-  margin: 14px 0 0;
-  color: rgba(249, 246, 241, 0.76);
-}
-
-.buddhabrot-workspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
-  gap: 20px;
-  align-items: start;
-}
-
-.buddhabrot-page .buddha-canvas-card,
-.buddhabrot-page .buddha-control-card {
-  padding: 22px;
-}
-
-.buddhabrot-page .buddha-canvas-header,
-.buddhabrot-page .buddha-control-header {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.buddhabrot-page .buddha-canvas-header h2,
-.buddhabrot-page .buddha-control-header h3 {
-  margin-top: 8px;
-}
-
-.buddhabrot-page .buddha-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.buddhabrot-page .buddha-badges span {
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(15, 124, 115, 0.1);
-  color: var(--accent-strong);
-  font-size: 0.88rem;
-}
-
-.buddhabrot-page .buddha-canvas-frame {
-  margin-top: 20px;
-  padding: 18px;
-  border-radius: 24px;
-  background: rgba(28, 34, 32, 0.95);
-}
-
-.buddhabrot-page .buddha-canvas {
-  display: block;
-  width: 100%;
-  max-width: 700px;
-  height: auto;
-  margin: 0 auto;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  image-rendering: pixelated;
-}
-
-.buddhabrot-page .buddha-controls-column {
-  display: grid;
-  gap: 16px;
-}
-
-.buddhabrot-page .buddha-button-grid {
+.studio-page .studio-button-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin-top: 14px;
 }
 
-.buddhabrot-page .buddha-field-grid {
+.studio-page .primary-action,
+.studio-page .secondary-action {
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 0;
+  box-shadow: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.studio-page .primary-action {
+  background: var(--surface-dark) !important;
+  color: #f9f6f1 !important;
+}
+
+.studio-page .secondary-action {
+  background: rgba(15, 124, 115, 0.12) !important;
+  color: var(--accent-strong) !important;
+}
+
+.studio-page .toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0 12px;
+}
+
+.studio-page .studio-field-grid {
   display: grid;
   gap: 10px;
   margin-top: 14px;
 }
 
-.buddhabrot-page .buddha-stat-list {
-  display: grid;
-  gap: 12px;
-  margin-top: 14px;
+.studio-page .studio-field-grid label {
+  display: block;
 }
 
-.buddhabrot-page .buddha-stat-list div {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.buddhabrot-page .buddha-stat-list strong {
-  color: var(--text);
-}
-
-.buddhabrot-page .buddha-info-card ul {
+.studio-page .studio-card ul {
+  max-width: 72ch;
   margin: 14px 0 0;
   padding-left: 18px;
 }
 
-.buddhabrot-page .buddha-info-card li + li {
+.studio-page .studio-card li + li {
   margin-top: 8px;
 }
 
+.studio-page .studio-card a {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+.studio-page .mechanics-intro,
+.studio-page .mechanics-note {
+  max-width: 72ch;
+  margin: 14px 0 0;
+  color: var(--muted);
+}
+
+.studio-page .mechanics-formula {
+  display: inline-block;
+  margin: 14px 0 0;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: rgba(28, 34, 32, 0.95);
+  color: #f9f6f1;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+}
+
 @media (max-width: 1100px) {
-  .buddhabrot-hero,
-  .buddhabrot-workspace {
+  .studio-page .studio-hero,
+  .studio-page .studio-workspace,
+  .life-page .life-main-card {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 720px) {
-  .buddhabrot-hero,
-  .buddhabrot-page .buddha-canvas-card,
-  .buddhabrot-page .buddha-control-card {
+  .studio-page .studio-card {
     padding: 18px;
     border-radius: 22px;
   }
 
-  .buddhabrot-page .buddha-button-grid {
+  .studio-page .studio-button-row {
+    flex-direction: column;
+  }
+
+  .studio-page .studio-button-grid {
     grid-template-columns: 1fr;
   }
 }
 
-.life-page {
-  display: grid;
-  gap: 24px;
+/* Buddhabrot-specific: the accumulator canvas is drawn at low internal
+   resolution and scaled up, so keep pixel edges crisp instead of blurred. */
+.buddhabrot-page .buddha-canvas {
+  image-rendering: pixelated;
 }
 
-.life-hero,
-.life-page .life-main-card,
-.life-page .life-control-card {
-  border: 1px solid rgba(22, 24, 23, 0.08);
-  border-radius: 28px;
-  background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(247, 241, 234, 0.84));
-  box-shadow: var(--shadow);
-}
-
-.life-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
-  gap: 20px;
-  padding: 28px;
-}
-
-.life-kicker {
-  display: block;
-  color: var(--accent-strong);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.life-page h1,
-.life-page h2,
-.life-page h3 {
-  margin: 0;
-  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
-}
-
-.life-page h1 {
-  margin: 10px 0 0.75rem;
-  font-size: clamp(2.5rem, 4.5vw, 4.25rem);
-  line-height: 1;
-}
-
-.life-intro,
-.life-status-card p,
-.life-page li {
-  color: var(--muted);
-}
-
-.life-intro {
-  max-width: 56ch;
-  margin: 0;
-  font-size: 1.05rem;
-}
-
-.life-status-card {
-  padding: 22px;
-  border-radius: 24px;
-  background: rgba(28, 34, 32, 0.95);
-  color: #f9f6f1;
-}
-
-.life-status-card strong {
-  display: block;
-  margin-top: 12px;
-  font-size: 1.35rem;
-}
-
-.life-status-card p {
-  margin: 14px 0 0;
-  color: rgba(249, 246, 241, 0.76);
-}
-
-.life-page .life-main-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
-  gap: 22px;
-  align-items: start;
-}
-
-.life-page .life-main-card,
-.life-page .life-control-card {
-  padding: 22px;
-}
-
-.life-page .life-grid-header,
-.life-page .life-control-header {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.life-page .life-control-header h3 {
-  margin-top: 8px;
+/* Game of Life-specific: the board layout (cell grid, resize controls,
+   pattern tooltip) has no equivalent on the other two pages. */
+.life-page .life-main-card.drawing mat-grid-tile {
+  cursor: crosshair;
 }
 
 .life-page .life-grid-title {
@@ -1288,32 +1030,6 @@ mat-sidenav-content {
 
 .life-page .life-size-apply-inline {
   min-height: 34px;
-  padding: 0 16px;
-  border-radius: 999px;
-  box-shadow: none;
-  background: rgba(15, 124, 115, 0.12) !important;
-  color: var(--accent-strong) !important;
-}
-
-.life-page .life-badges {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.life-page .life-badges span {
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(15, 124, 115, 0.1);
-  color: var(--accent-strong);
-  font-size: 0.88rem;
-}
-
-.life-page .life-grid-frame {
-  margin-top: 20px;
-  padding: 18px;
-  border-radius: 24px;
-  background: rgba(28, 34, 32, 0.95);
 }
 
 .life-page .life-side-pane {
@@ -1336,30 +1052,6 @@ mat-sidenav-content {
   border-top: 1px solid rgba(22, 24, 23, 0.08);
 }
 
-.life-page .life-button-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.life-page .life-primary,
-.life-page .life-secondary {
-  min-height: 46px;
-  border-radius: 999px;
-  box-shadow: none;
-}
-
-.life-page .life-primary {
-  background: var(--surface-dark) !important;
-  color: #f9f6f1 !important;
-}
-
-.life-page .life-secondary {
-  background: rgba(15, 124, 115, 0.12) !important;
-  color: var(--accent-strong) !important;
-}
-
 .life-page .life-pattern-row {
   display: flex;
   gap: 12px;
@@ -1371,16 +1063,11 @@ mat-sidenav-content {
   min-width: 0;
 }
 
-.life-page .life-field-label {
+.life-page .life-field .field-label {
   display: flex;
   align-items: center;
   gap: 6px;
   margin-top: 14px;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent-strong);
 }
 
 .life-page .life-info-bubble {
@@ -1428,27 +1115,6 @@ mat-sidenav-content {
   visibility: visible;
 }
 
-.life-page .life-select {
-  width: 100%;
-  min-height: 48px;
-  margin-top: 8px;
-  padding: 0 14px;
-  border: 1px solid rgba(22, 24, 23, 0.12);
-  border-radius: 14px;
-  background: rgba(255, 252, 247, 0.75);
-  color: var(--text);
-  font: inherit;
-}
-
-.life-page .life-info-card ul {
-  margin: 14px 0 0;
-  padding-left: 18px;
-}
-
-.life-page .life-info-card li + li {
-  margin-top: 8px;
-}
-
 .life-page mat-grid-list {
   width: 100%;
   margin: 0 auto;
@@ -1474,30 +1140,6 @@ mat-sidenav-content {
 
 .life-page mat-grid-tile.dead:hover {
   background: rgba(232, 224, 214, 0.96);
-}
-
-.life-page .life-main-card.drawing mat-grid-tile {
-  cursor: crosshair;
-}
-
-@media (max-width: 1100px) {
-  .life-hero,
-  .life-page .life-main-card {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 720px) {
-  .life-hero,
-  .life-page .life-main-card,
-  .life-page .life-control-card {
-    padding: 18px;
-    border-radius: 22px;
-  }
-
-  .life-page .life-button-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .bio-page {

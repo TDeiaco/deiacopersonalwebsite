@@ -1,23 +1,23 @@
-<section class="life-page">
-  <header class="life-hero">
+<section class="life-page studio-page">
+  <header class="studio-hero studio-card">
     <div>
-      <p class="life-kicker">Cellular automata</p>
+      <p class="studio-kicker">Cellular automata</p>
       <h1>Game of Life studio.</h1>
-      <p class="life-intro">
+      <p class="studio-intro">
         Seed the grid, step through generations, or let the system run and watch simple rules produce larger structures.
       </p>
     </div>
 
-    <div class="life-status-card">
+    <div class="studio-status-card">
       <span class="status-label">Mode</span>
       <strong>{{ isRunning ? 'Running' : 'Editing' }}</strong>
       <p>Left drag paints live cells, right drag erases them, and next step advances a single generation.</p>
     </div>
   </header>
 
-  <div class="life-main-card" [class.drawing]="isDrawing">
-    <div class="life-board-pane">
-      <div class="life-grid-header">
+  <div class="studio-card studio-workspace life-main-card" [class.drawing]="isDrawing">
+    <div>
+      <div class="studio-card-header">
         <div class="life-grid-title">
           <span class="status-label">Live board</span>
           <h2>{{ rows }} x {{ cols }} field</h2>
@@ -37,20 +37,20 @@
                      [attr.min]="minCols" [attr.max]="maxCols"
                      [value]="cols" [disabled]="isRunning">
             </label>
-            <button mat-raised-button class="life-size-apply-inline"
+            <button mat-raised-button class="secondary-action life-size-apply-inline"
                     (click)="applyBoardSize(rowsInput.value, colsInput.value)"
                     [disabled]="isRunning">
               Resize
             </button>
           </div>
 
-          <div class="life-badges">
+          <div class="studio-badges">
             <span>{{ isRunning ? 'Simulation active' : 'Ready to edit' }}</span>
           </div>
         </div>
       </div>
 
-      <div class="life-grid-frame">
+      <div class="studio-canvas-frame">
         <mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="0px">
           <ng-container *ngFor="let i of rowsArray; let ri = index">
             <mat-grid-tile *ngFor="let j of colsArray; let cj = index"
@@ -67,29 +67,29 @@
 
     <div class="life-side-pane">
       <div class="life-panel">
-        <div class="life-control-header">
+        <div class="studio-card-header">
           <span class="status-label">Controls</span>
           <h3>Simulation actions</h3>
         </div>
 
-        <div class="life-button-grid">
-          <button mat-raised-button class="life-primary" (click)="startGame()" [disabled]="isRunning">Start</button>
-          <button mat-raised-button class="life-secondary" (click)="stopGame()" [disabled]="!isRunning">Stop</button>
-          <button mat-raised-button class="life-secondary" (click)="resetGame()" [disabled]="isRunning">Reset</button>
-          <button mat-raised-button class="life-secondary" (click)="randomizeGrid()" [disabled]="isRunning">Randomize</button>
-          <button mat-raised-button class="life-secondary" (click)="nextGeneration()" [disabled]="isRunning">Next step</button>
+        <div class="studio-button-grid">
+          <button mat-raised-button class="primary-action" (click)="startGame()" [disabled]="isRunning">Start</button>
+          <button mat-raised-button class="secondary-action" (click)="stopGame()" [disabled]="!isRunning">Stop</button>
+          <button mat-raised-button class="secondary-action" (click)="resetGame()" [disabled]="isRunning">Reset</button>
+          <button mat-raised-button class="secondary-action" (click)="randomizeGrid()" [disabled]="isRunning">Randomize</button>
+          <button mat-raised-button class="secondary-action" (click)="nextGeneration()" [disabled]="isRunning">Next step</button>
         </div>
       </div>
 
       <div class="life-panel">
-        <div class="life-control-header">
+        <div class="studio-card-header">
           <span class="status-label">Patterns</span>
           <h3>Stamp a shape</h3>
         </div>
 
         <div class="life-pattern-row">
           <div class="life-field">
-            <label class="life-field-label" for="pattern-category-select">
+            <label class="field-label" for="pattern-category-select">
               Type
               <span class="life-info-bubble" tabindex="0">?
                 <span class="life-info-tooltip">
@@ -100,7 +100,7 @@
               </span>
             </label>
             <select id="pattern-category-select" #categorySelect
-                    class="life-select"
+                    class="field-control"
                     [disabled]="isRunning"
                     (change)="onCategoryChange(categorySelect.value)">
               <option value="">Choose a type…</option>
@@ -113,14 +113,14 @@
           </div>
 
           <div class="life-field">
-            <label class="life-field-label" for="pattern-select">
+            <label class="field-label" for="pattern-select">
               Shape
               <span class="life-info-bubble" *ngIf="selectedPattern as pattern" tabindex="0">?
                 <span class="life-info-tooltip">{{ pattern.description }}</span>
               </span>
             </label>
             <select id="pattern-select" #patternSelect
-                    class="life-select"
+                    class="field-control"
                     [disabled]="isRunning || !selectedCategoryName"
                     (change)="onPatternChange(patternSelect.value)">
               <option value="">Choose a pattern…</option>
@@ -136,8 +136,8 @@
     </div>
   </div>
 
-  <section class="life-control-card life-info-card life-guide-row">
-    <div class="life-control-header">
+  <section class="studio-card guide-card">
+    <div class="studio-card-header">
       <span class="status-label">Guide</span>
       <h3>How to use it</h3>
     </div>
@@ -149,5 +149,30 @@
       <li>Randomize is useful for finding fast-moving or self-organizing patterns.</li>
       <li>Pick a pattern type and shape, then click the board to stamp it.</li>
     </ul>
+  </section>
+
+  <section class="studio-card mechanics-card">
+    <div class="studio-card-header">
+      <span class="status-label">Mechanics</span>
+      <h3>What's actually happening</h3>
+    </div>
+
+    <p class="mechanics-intro">
+      Every cell is either alive or dead, and each generation every cell's fate is decided purely by
+      how many of its 8 neighbors are alive right now &mdash; no memory, no randomness, just four rules:
+    </p>
+
+    <ul>
+      <li><strong>Underpopulation</strong> &mdash; a live cell with fewer than 2 live neighbors dies.</li>
+      <li><strong>Survival</strong> &mdash; a live cell with 2 or 3 live neighbors stays alive.</li>
+      <li><strong>Overpopulation</strong> &mdash; a live cell with more than 3 live neighbors dies.</li>
+      <li><strong>Reproduction</strong> &mdash; a dead cell with exactly 3 live neighbors becomes alive.</li>
+    </ul>
+
+    <p class="mechanics-note">
+      All of these rules are applied to the whole board at once to produce the next generation, which
+      is what makes shapes like gliders appear to move. The board also wraps at its edges, so anything
+      that drifts off one side re-enters on the opposite side instead of disappearing.
+    </p>
   </section>
 </section>

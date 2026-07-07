@@ -1,131 +1,158 @@
-<section class="mandelbrot-page">
-  <header class="mandelbrot-hero">
+<section class="mandelbrot-page studio-page">
+  <header class="studio-hero studio-card">
     <div>
-      <p class="mandelbrot-kicker">Fractal explorer</p>
+      <p class="studio-kicker">Fractal explorer</p>
       <h1>Mandelbrot studio.</h1>
-      <p class="mandelbrot-intro">
+      <p class="studio-intro">
         Explore the set, tune the image, and export high-resolution stills from the same visual workspace.
       </p>
     </div>
 
-    <div class="mandelbrot-status-card">
+    <div class="studio-status-card">
       <span class="status-label">Render time</span>
       <strong>{{ elapsedTime || 'Waiting for first render' }}</strong>
       <p>Click the canvas to zoom, use Alt+Click to pull back, and Ctrl+Click to reposition.</p>
     </div>
   </header>
 
-  <section class="mandelbrot-workspace">
-    <div class="canvas-card">
-      <div class="canvas-card-header">
+  <section class="studio-workspace">
+    <div class="studio-card">
+      <div class="studio-card-header">
         <div>
           <span class="status-label">Live canvas</span>
           <h2>Mandelbrot viewport</h2>
         </div>
-        <div class="canvas-badges">
+        <div class="studio-badges">
           <span>{{ xRes }} x {{ yRes }}</span>
           <span *ngIf="isRendering">Rendering</span>
           <span *ngIf="!isRendering">Ready</span>
         </div>
       </div>
 
-      <div class="canvas-frame">
-        <canvas [width]="xRes" [height]="yRes" #fractalCanvas></canvas>
+      <div class="studio-canvas-frame">
+        <canvas class="studio-canvas" [width]="xRes" [height]="yRes" #fractalCanvas></canvas>
       </div>
     </div>
 
-    <aside class="controls-column">
-      <section class="control-card">
-        <div class="control-card-header">
+    <aside class="studio-controls-column">
+      <section class="studio-card">
+        <div class="studio-card-header">
           <span class="status-label">Controls</span>
           <h3>Render setup</h3>
         </div>
 
-        <div class="button-row">
+        <div class="studio-button-row">
           <button type="button" class="primary-action" (click)="renderFractal()">Render</button>
           <button type="button" class="secondary-action" (click)="resetHomeAndRender()">Reset view</button>
         </div>
 
         <label class="field-label" for="iterationCountInput">Iterations</label>
-        <input id="iterationCountInput" [(ngModel)]="iterationCount" min="2" />
+        <input class="field-control" id="iterationCountInput" [(ngModel)]="iterationCount" min="2" />
 
         <label class="toggle-row">
           <span>Enable custom coloring</span>
           <input type="checkbox" [(ngModel)]="useColorFormat" />
         </label>
 
-        <div *ngIf="useColorFormat" class="color-grid">
+        <div *ngIf="useColorFormat" class="studio-field-grid">
           <label class="field-label" for="colorFormatR">Red channel</label>
-          <input type="text" id="colorFormatR" [(ngModel)]="colorFormatR" />
+          <input class="field-control" type="text" id="colorFormatR" [(ngModel)]="colorFormatR" />
 
           <label class="field-label" for="colorFormatG">Green channel</label>
-          <input type="text" id="colorFormatG" [(ngModel)]="colorFormatG" />
+          <input class="field-control" type="text" id="colorFormatG" [(ngModel)]="colorFormatG" />
 
           <label class="field-label" for="colorFormatB">Blue channel</label>
-          <input type="text" id="colorFormatB" [(ngModel)]="colorFormatB" />
+          <input class="field-control" type="text" id="colorFormatB" [(ngModel)]="colorFormatB" />
         </div>
 
         <div class="progress-note" *ngIf="isRendering">Rendering current view...</div>
       </section>
 
-      <section class="control-card">
-        <div class="control-card-header">
+      <section class="studio-card">
+        <div class="studio-card-header">
           <span class="status-label">Export</span>
           <h3>High-resolution output</h3>
         </div>
 
         <label class="field-label" for="horzRes">Resolution</label>
-        <input type="number" min="6" [(ngModel)]="exportResolution" id="horzRes" />
+        <input class="field-control" type="number" min="6" [(ngModel)]="exportResolution" id="horzRes" />
 
         <button type="button" class="primary-action" (click)="exportRender($event)">Export render</button>
 
         <div class="progress-note" *ngIf="isExporting">Exporting {{ exportProgress }}</div>
       </section>
 
-      <section class="control-card coord-card">
-        <div class="control-card-header">
+      <section class="studio-card">
+        <div class="studio-card-header">
           <span class="status-label">Coordinates</span>
           <h3>Current window</h3>
         </div>
 
-        <div class="coord-grid">
+        <div class="studio-field-grid">
           <label>
             <span class="field-label">Real coordinate</span>
-            <input type="number" [(ngModel)]="windowCoords.real" />
+            <input class="field-control" type="number" [(ngModel)]="windowCoords.real" />
           </label>
           <label>
             <span class="field-label">Imaginary coordinate</span>
-            <input type="number" [(ngModel)]="windowCoords.img" />
+            <input class="field-control" type="number" [(ngModel)]="windowCoords.img" />
           </label>
           <label>
             <span class="field-label">Real window</span>
-            <input type="number" [(ngModel)]="windowCoords.realRange" />
+            <input class="field-control" type="number" [(ngModel)]="windowCoords.realRange" />
           </label>
           <label>
             <span class="field-label">Imaginary window</span>
-            <input type="number" [(ngModel)]="windowCoords.imgRange" />
+            <input class="field-control" type="number" [(ngModel)]="windowCoords.imgRange" />
           </label>
         </div>
       </section>
-
-      <section class="control-card info-card">
-        <div class="control-card-header">
-          <span class="status-label">Guide</span>
-          <h3>How to explore</h3>
-        </div>
-
-        <ul>
-          <li>Click anywhere on the image to zoom in.</li>
-          <li>Alt+Click zooms out and Ctrl+Click re-centers without changing scale.</li>
-          <li>Iteration count controls detail and render time.</li>
-          <li>Export renders a square high-resolution image; above 9600px can fail.</li>
-          <li>Use custom coloring expressions with the parameter <strong>iters</strong>.</li>
-        </ul>
-
-        <a href="https://mathjs.org/docs/expressions/syntax.html" target="_blank" rel="noopener noreferrer">
-          Expression syntax reference
-        </a>
-      </section>
     </aside>
+  </section>
+
+  <section class="studio-card guide-card">
+    <div class="studio-card-header">
+      <span class="status-label">Guide</span>
+      <h3>How to explore</h3>
+    </div>
+
+    <ul>
+      <li>Click anywhere on the image to zoom in.</li>
+      <li>Alt+Click zooms out and Ctrl+Click re-centers without changing scale.</li>
+      <li>Iteration count controls detail and render time.</li>
+      <li>Export renders a square high-resolution image; above 9600px can fail.</li>
+      <li>Use custom coloring expressions with the parameter <strong>iters</strong>.</li>
+    </ul>
+
+    <a href="https://mathjs.org/docs/expressions/syntax.html" target="_blank" rel="noopener noreferrer">
+      Expression syntax reference
+    </a>
+  </section>
+
+  <section class="studio-card mechanics-card">
+    <div class="studio-card-header">
+      <span class="status-label">Mechanics</span>
+      <h3>What's actually happening</h3>
+    </div>
+
+    <p class="mechanics-intro">
+      Every pixel represents a point <strong>c</strong> on the complex plane. Starting from
+      <strong>z = 0</strong>, the same simple formula is applied over and over:
+    </p>
+
+    <p class="mechanics-formula">z = z² + c</p>
+
+    <ul>
+      <li>If the size of <strong>z</strong> ever grows past 2, the point has escaped &mdash; it's outside the set, and the pixel is colored by how many iterations that took.</li>
+      <li>If <strong>z</strong> is still bounded after the iteration cap, the point is treated as part of the Mandelbrot set and takes the color reserved for max iterations.</li>
+      <li>Iteration count trades detail for render time: higher counts resolve finer boundary structure but take longer per pixel.</li>
+      <li>Clicking re-centers the view on that point and rescales the window (zoom in, Alt zooms out, Ctrl only recenters), then every pixel in the new window is recalculated from scratch.</li>
+    </ul>
+
+    <p class="mechanics-note">
+      Custom coloring expressions replace the default palette by mapping the escape iteration count
+      (<strong>iters</strong>) onto each RGB channel, which is why very different expressions can reveal
+      totally different textures from the same underlying math.
+    </p>
   </section>
 </section>
